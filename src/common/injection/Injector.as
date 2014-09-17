@@ -42,12 +42,13 @@ package common.injection
             return _map[key] || (_map[key] = new Mapping(this, type, name, key));
         }
         
-        public function unmap(type:Class, id:String = null):void
+        public function unmap(type:Class, name:String = null):void
         {
-            var key:String = getKey(type, id);
+            var key:String = getKey(type, name);
             var map:IMapping = _map[key];
             if (map)
             {
+                unmapProvider(type, name);
                 map.dispose();
                 delete _map[key];
             }
@@ -67,6 +68,7 @@ package common.injection
             if (last)
             {
                 last.dispose();
+                delete _provider[key];
             }
         }
         
