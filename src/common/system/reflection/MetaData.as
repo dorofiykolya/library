@@ -25,5 +25,18 @@ package common.system.reflection
         {
             return _arguments.slice();
         }
+        
+        public function getArgument(name:String):Vector.<Argument>
+        {
+            var result:Vector.<Argument> = new Vector.<Argument>();
+            for each (var arg:Argument in _arguments)
+            {
+                if (arg._name == name)
+                {
+                    result[result.length] = arg;
+                }
+            }
+            return result;
+        }
     }
 }
