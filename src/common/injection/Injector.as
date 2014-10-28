@@ -14,7 +14,7 @@ package common.injection
      * ...
      * @author dorofiy.com
      */
-    public class Injector extends TypeObject implements IDisposable
+    public class Injector extends TypeObject implements IInjector, IDisposable
     {
         private static const INJECTION_TYPE_NAME:String = ClassType.getQualifiedClassName(InjectionType) + "-info";
         
@@ -25,15 +25,6 @@ package common.injection
         {
             _map = new Dictionary();
             _provider = new Dictionary();
-        }
-        
-        private function getKey(type:Class, name:String):String
-        {
-            if (name)
-            {
-                return ClassType.getQualifiedClassName(type) + "|" + name;
-            }
-            return ClassType.getQualifiedClassName(type);
         }
         
         public function map(type:Class, name:String = null):IMapping
@@ -106,6 +97,15 @@ package common.injection
         {
             disposeEnumerable(_map);
             disposeEnumerable(_provider);
+        }
+        
+        private function getKey(type:Class, name:String):String
+        {
+            if (name)
+            {
+                return ClassType.getQualifiedClassName(type) + "|" + name;
+            }
+            return ClassType.getQualifiedClassName(type);
         }
         
         private function disposeEnumerable(value:Object):void
