@@ -20,6 +20,7 @@ package common.injection
         
         private var _map:Dictionary;
         private var _provider:Dictionary;
+        private var _parent:IInjector;
         
         public function Injector()
         {
@@ -89,6 +90,16 @@ package common.injection
         public function inject(value:Object):void
         {
             getInjectionType(value).apply(value);
+            var target:IInjector = _parent;
+            while (target)
+            {
+                getInjectionType(value).apply(value);
+                if (target == target.parent) 
+                {
+                    break;
+                }
+                target = target.parent;
+            }
         }
         
         /* INTERFACE common.system.IDisposable */
@@ -120,6 +131,16 @@ package common.injection
                     }
                 }
             }
+        }
+        
+        public function get parent():IInjector 
+        {
+            return _parent;
+        }
+        
+        public function set parent(value:IInjector):void 
+        {
+            _parent = value;
         }
     }
 }

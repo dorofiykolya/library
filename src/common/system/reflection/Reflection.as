@@ -685,12 +685,12 @@ package common.system.reflection
 		{
 			if (_hasInstance)
 			{
-				var params:Vector.<Parameter> = _constructor._parameters;
+				var params:Vector.<Parameter> = constructorInfo._parameters;
 				if (params == null || params.length == 0)
 				{
 					return new _class();
 				}
-				if (_constructor.requiredParameterCount > args.length)
+				if (constructorInfo.requiredParameterCount > args.length)
 				{
 					throw new ArgumentError(ClassType.getQualifiedClassName(this) + ", wrong number of arguments");
 				}

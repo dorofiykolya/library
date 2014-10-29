@@ -1,14 +1,14 @@
-package common.composite 
+package common.composite
 {
-	
-	/**
-	 * ...
-	 * @author dorofiy.com
-	 */
-	public interface IBehaviourController 
-	{
-		function add(behaviour:ComponentBehaviour):ComponentBehaviour;
-		function remove(behaviour:ComponentBehaviour):ComponentBehaviour;
-	}
-	
+    
+    /**
+     * ...
+     * @author dorofiy.com
+     */
+    public interface IBehaviourController
+    {
+        function add(behaviour:ComponentBehaviour):ComponentBehaviour;
+        function remove(behaviour:ComponentBehaviour):ComponentBehaviour;
+    }
+
 }

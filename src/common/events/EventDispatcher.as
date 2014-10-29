@@ -1,4 +1,4 @@
-package common.composite
+package common.events
 {
     import common.composite.Component;
     import common.system.IDisposable;
@@ -9,7 +9,7 @@ package common.composite
      * ...
      * @author dorofiy.com
      */
-    public class EventDispatcher extends TypeObject implements IDisposable
+    public class EventDispatcher extends TypeObject implements IEventDispatcher, IDisposable
     {
         private static var _bubbleChains:Vector.<Vector.<EventDispatcher>> = new <Vector.<EventDispatcher>>[];
         
@@ -20,7 +20,7 @@ package common.composite
         
         }
         
-        public function addEventListener(type:String, listener:Function):void
+        public function addEventListener(type:Object, listener:Function):void
         {
             if (_eventListeners == null)
             {
@@ -38,7 +38,7 @@ package common.composite
             }
         }
         
-        public function removeEventListener(type:String, listener:Function):void
+        public function removeEventListener(type:Object, listener:Function):void
         {
             if (_eventListeners)
             {
@@ -64,7 +64,7 @@ package common.composite
             }
         }
         
-        public function removeEventListeners(type:String = null):void
+        public function removeEventListeners(type:Object = null):void
         {
             if (type && _eventListeners)
             {
@@ -174,7 +174,7 @@ package common.composite
             _bubbleChains[_bubbleChains.length] = chain;
         }
         
-        public function dispatchEventWith(type:String, bubbles:Boolean = false, data:Object = null):void
+        public function dispatchEventWith(type:Object, bubbles:Boolean = false, data:Object = null):void
         {
             if (bubbles || hasEventListener(type))
             {
@@ -184,12 +184,17 @@ package common.composite
             }
         }
         
-        public function dispatchEventAs(typeClass:Class, type:String, ... args):void
+        public function dispatchEventAs(typeClass:Class, type:Object, bubbles:Boolean = false, data:Object = null, ... args):void
         {
-            //new factory
+            if (bubbles || hasEventListener(type))
+            {
+                var event:Event = Event.fromPoolAs(typeClass, type, bubbles, data, args);
+                dispatchEvent(event);
+                Event.toPoolAs(event);
+            }
         }
         
-        public function hasEventListener(type:String, listener:Function = null):Boolean
+        public function hasEventListener(type:Object, listener:Function = null):Boolean
         {
             var listeners:Vector.<Function> = _eventListeners ? _eventListeners[type] : null;
             if (listeners)
