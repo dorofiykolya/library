@@ -1,5 +1,7 @@
 package common.system.enums
 {
+	import common.system.ClassType;
+	import common.system.Enum;
 	
 	/**
 	 * ...
@@ -11,11 +13,11 @@ package common.system.enums
 		
 		public function NameEnum(name:String, value:Object)
 		{
+			super(value);
 			if (Object(this).constructor === NameEnum)
 			{
 				throw new ArgumentError('ArgumentError: ' + ClassType.getQualifiedClassName(this) + ' class cannot be instantiated.');
 			}
-			super(value);
 		}
 		
 		public function get name():String
