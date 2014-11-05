@@ -126,7 +126,7 @@ package common.system
 						_collection[index] = current;
 						_collection[i] = null;
 					}
-					if (params.length == 0)
+					if (params.length == 0 || current.length == 0)
 					{
 						current();
 					}
