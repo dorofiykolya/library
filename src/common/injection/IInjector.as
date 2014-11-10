@@ -11,5 +11,6 @@ package common.injection {
         function map(type:Class, name:String = null):IMapping;
         function unmap(type:Class, name:String = null):void;
         function get parent():IInjector;
+        function getObject(type:Class, name:String = null):Object;
     }
 }

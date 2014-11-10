@@ -89,7 +89,6 @@ package common.injection
         
         public function inject(value:Object):void
         {
-            getInjectionType(value).apply(value);
             var target:IInjector = _parent;
             while (target)
             {
@@ -100,6 +99,17 @@ package common.injection
                 }
                 target = target.parent;
             }
+            getInjectionType(value).apply(value);
+        }
+        
+        public function getObject(type:Class, name:String = null):Object
+        {
+            var provider:IProvider = getProvider(type, name)
+            if (provider)
+            {
+                return provider.apply(this, type);
+            }
+            return null;
         }
         
         /* INTERFACE common.system.IDisposable */
@@ -108,6 +118,16 @@ package common.injection
         {
             disposeEnumerable(_map);
             disposeEnumerable(_provider);
+        }
+        
+        public function get parent():IInjector 
+        {
+            return _parent;
+        }
+        
+        public function set parent(value:IInjector):void 
+        {
+            _parent = value;
         }
         
         private function getKey(type:Class, name:String):String
@@ -131,16 +151,6 @@ package common.injection
                     }
                 }
             }
-        }
-        
-        public function get parent():IInjector 
-        {
-            return _parent;
-        }
-        
-        public function set parent(value:IInjector):void 
-        {
-            _parent = value;
         }
     }
 }
