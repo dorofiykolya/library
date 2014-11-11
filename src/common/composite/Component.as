@@ -56,7 +56,7 @@ package common.composite
         
         public static function instantiate(componentType:Class):Component
         {
-            var result:Object;
+            var result:Component;
             var pool:Vector.<Component> = getPoolComponents(componentType);
             if (pool.length != 0)
             {
@@ -68,13 +68,14 @@ package common.composite
             }
             else
             {
-                result = new componentType;
+                var tempResult:Object = new componentType;
+                if (!(tempResult is Component))
+                {
+                    throw new IllegalArgumentError(ClassType.getQualifiedClassName(componentType) + ", component must extend the " + ClassType.getQualifiedClassName(Component));
+                }
+                result = Component(tempResult);
             }
-            if (!(result is Component))
-            {
-                throw new IllegalArgumentError(ClassType.getQualifiedClassName(componentType) + ", component must extend the " + ClassType.getQualifiedClassName(Component));
-            }
-            return Component(result);
+            return result;
         }
         
         internal static function disposeComponent(item:Component):void
