@@ -81,7 +81,7 @@ package common.injection
             var injectionDescription:InjectionType = Cache.cache.getStorageValue(INJECTION_TYPE_NAME, type)
             if (injectionDescription == null)
             {
-                injectionDescription = new InjectionType(this, type);
+                injectionDescription = new InjectionType(type);
                 Cache.cache.setStorageValue(INJECTION_TYPE_NAME, type, injectionDescription);
             }
             return injectionDescription;
@@ -89,17 +89,11 @@ package common.injection
         
         public function inject(value:Object):void
         {
-            var target:IInjector = _parent;
-            while (target)
+            if (_parent)
             {
-                getInjectionType(value).apply(value);
-                if (target == target.parent) 
-                {
-                    break;
-                }
-                target = target.parent;
+                _parent.inject(value);
             }
-            getInjectionType(value).apply(value);
+            getInjectionType(value).apply(this, value);
         }
         
         public function getObject(type:Class, name:String = null):Object

@@ -1,6 +1,6 @@
 package common.injection.description
 {
-    import common.injection.Injector;
+    import common.injection.IInjector;
     import common.injection.providers.IProvider;
     import common.injection.tags.Args;
     import common.injection.tags.Tag;
@@ -21,16 +21,14 @@ package common.injection.description
      */
     public class InjectionType extends TypeObject implements IDisposable
     {
-        private var _injector:Injector;
         private var _type:Class;
         private var _providers:Vector.<TypeInfo>;
         
         private var _currentMeta:MetaData;
         private var _currentInjectionId:String;
         
-        public function InjectionType(injector:Injector, type:Class)
+        public function InjectionType(type:Class)
         {
-            _injector = injector;
             _type = type;
             _providers = new Vector.<TypeInfo>();
             inspect();
@@ -45,45 +43,40 @@ package common.injection.description
         
         private function extractFields(type:Type):void
         {
-            var provider:IProvider;
             for each (var field:Field in type.fields)
             {
                 getInjectMetaData(field);
                 if (_currentMeta)
                 {
-                    provider = _injector.getProvider(field.type, _currentInjectionId);
-                    if (provider)
-                    {
-                        _providers[_providers.length] = new TypeInfo(provider, field.type, field.name);
-                    }
+                    _providers[_providers.length] = new TypeInfo(field.type, field.name, _currentInjectionId);
                 }
             }
         }
         
         private function extractProperties(type:Type):void
         {
-            var provider:IProvider;
             for each (var property:Property in type.getProperties(Access.READWRITE))
             {
                 getInjectMetaData(property);
                 if (_currentMeta)
                 {
-                    provider = _injector.getProvider(property.type, _currentInjectionId);
-                    if (provider)
-                    {
-                        _providers[_providers.length] = new TypeInfo(provider, property.type, property.name);
-                    }
+                    _providers[_providers.length] = new TypeInfo(property.type, property.name, _currentInjectionId);
                 }
             }
         }
         
-        public function apply(value:Object):void
+        public function apply(injector:IInjector, value:Object):void
         {
             if (_providers.length > 0)
             {
+                var provider:IProvider;
                 for each (var depency:TypeInfo in _providers)
                 {
-                    value[depency.name] = depency.provider.apply(_injector, depency.type);
+                    provider = injector.getProvider(depency.type, depency.id);
+                    if (provider)
+                    {
+                        value[depency.name] = provider.apply(injector, depency.type);
+                    }
                 }
             }
         }
@@ -92,7 +85,6 @@ package common.injection.description
         
         public function dispose():void
         {
-            _injector = null;
             _type = null;
             if (_providers)
             {

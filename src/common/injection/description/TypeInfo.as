@@ -11,14 +11,14 @@ package common.injection.description
     public class TypeInfo extends TypeObject implements IDisposable
     {
         public var type:Class;
-        public var provider:IProvider;
         public var name:String;
+        public var id:String;
         
-        public function TypeInfo(provider:IProvider, type:Class, name:String)
+        public function TypeInfo(type:Class, name:String, id:String)
         {
             this.type = type;
-            this.provider = provider;
             this.name = name;
+            this.id = id;
         }
         
         /* INTERFACE common.system.IDisposable */
@@ -26,8 +26,8 @@ package common.injection.description
         public function dispose():void
         {
             type = null;
-            provider = null;
             name = null;
+            id = null;
         }
     }
 }

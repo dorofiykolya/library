@@ -1,10 +1,10 @@
 package common.injection.providers
 {
-	import common.injection.Injector;
-	import common.system.ClassType;
-	import common.system.errors.AbstractClassError;
-	import common.system.errors.AbstractMethodError;
-	import common.system.TypeObject;
+    import common.injection.IInjector;
+    import common.system.ClassType;
+    import common.system.errors.AbstractClassError;
+    import common.system.errors.AbstractMethodError;
+    import common.system.TypeObject;
 	
 	/**
 	 * ...
@@ -28,7 +28,7 @@ package common.injection.providers
 		
 		/* INTERFACE common.injection.depends.IDependency */
 		
-		public function apply(injector:Injector, type:Class):Object
+		public function apply(injector:IInjector, type:Class):Object
 		{
 			throw new AbstractMethodError("Method needs to be implemented in subclass");
 		}

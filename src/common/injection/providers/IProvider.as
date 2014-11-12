@@ -1,5 +1,6 @@
 package common.injection.providers
 {
+    import common.injection.IInjector;
 	import common.injection.Injector;
 	import common.system.IDisposable;
 	
@@ -9,6 +10,6 @@ package common.injection.providers
 	 */
 	public interface IProvider extends IDisposable
 	{
-		function apply(injector:Injector, type:Class):Object;
+		function apply(injector:IInjector, type:Class):Object;
 	}
 }

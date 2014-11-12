@@ -1,10 +1,9 @@
 package common.injection.providers
 {
-    import common.injection.Injector;
+    import common.injection.IInjector;
     import common.system.ClassType;
     import common.system.reflection.Parameter;
     import common.system.Type;
-    import common.system.TypeObject;
     
     /**
      * ...
@@ -19,7 +18,7 @@ package common.injection.providers
         
         /* INTERFACE common.injection.depends.IDependency */
         
-        public override function apply(injector:Injector, type:Class):Object
+        public override function apply(injector:IInjector, type:Class):Object
         {
             var result:Object = createInstance(injector, ClassType.getInstanceType(type));
             if (result)
@@ -29,7 +28,7 @@ package common.injection.providers
             return result;
         }
         
-        private function create(injector:Injector, type:Class):Object
+        private function create(injector:IInjector, type:Class):Object
         {
             var provider:IProvider = injector.getProvider(type);
             if (provider)
@@ -39,7 +38,7 @@ package common.injection.providers
             return createInstance(injector, ClassType.getInstanceType(type));
         }
         
-        private function createInstance(injector:Injector, type:Type):Object
+        private function createInstance(injector:IInjector, type:Type):Object
         {
             var result:Object;
             if (type.constructorInfo.parameters.length == 0)

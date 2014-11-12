@@ -1,5 +1,6 @@
 package common.injection {
     import common.injection.maps.IMapping;
+    import common.injection.providers.IProvider;
     
     /**
      * ...
@@ -12,5 +13,6 @@ package common.injection {
         function unmap(type:Class, name:String = null):void;
         function get parent():IInjector;
         function getObject(type:Class, name:String = null):Object;
+        function getProvider(type:Class, name:String = null):IProvider;
     }
 }

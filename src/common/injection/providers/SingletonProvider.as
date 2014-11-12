@@ -1,6 +1,6 @@
 package common.injection.providers
 {
-    import common.injection.Injector;
+    import common.injection.IInjector;
     
     /**
      * ...
@@ -14,7 +14,7 @@ package common.injection.providers
             super(type, value);
         }
         
-        public override function apply(injector:Injector, type:Class):Object
+        public override function apply(injector:IInjector, type:Class):Object
         {
             if (_value is Class)
             {
