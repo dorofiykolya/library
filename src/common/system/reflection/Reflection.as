@@ -680,6 +680,15 @@ package common.system.reflection
 			}
 			return false;
 		}
+        
+        public final function isInstanceOf(type:Class):Boolean
+        {
+            if (_hasInstance && type)
+            {
+                return _class == type || isSubclassOf(type);
+            }
+            return false;
+        }
 		
 		public final function newInstance(... args):Object
 		{

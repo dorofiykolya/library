@@ -18,7 +18,10 @@ package common.injection.providers
         {
             if (_value is Class)
             {
-                _value = new _value;
+                var clazz:Class = Class(_value);
+                var factory:FactoryProvider = new FactoryProvider(clazz, clazz);
+                _value = factory.apply(injector, clazz);
+                factory.dispose();
             }
             return _value;
         }

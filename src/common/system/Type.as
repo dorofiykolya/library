@@ -310,6 +310,11 @@ package common.system
 		{
 			return _reflection.isSubclassOf(type);
 		}
+        
+        public function isInstanceOf(type:Class):Boolean 
+        {
+            return _reflection.isInstanceOf(type);
+        }
 		
 		public function get isUndefined():Boolean 
 		{
