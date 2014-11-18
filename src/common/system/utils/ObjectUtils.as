@@ -33,7 +33,7 @@ package common.system.utils
 		private static const CACHE:Cache = Cache.cache;
 		private static function get typeCache():Object
 		{
-			return CACHE[typeCache] || (CACHE[typeCache] = new Dictionary());
+			return CACHE[TYPE_NAME] || (CACHE[TYPE_NAME] = new Dictionary());
 		}
 		
 		//--------------------------------------------------------------------------

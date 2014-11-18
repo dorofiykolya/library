@@ -35,7 +35,9 @@ package common.injection.providers
             {
                 return provider.apply(injector, type);
             }
-            return createInstance(injector, ClassType.getInstanceType(type));
+            var result:Object = createInstance(injector, ClassType.getInstanceType(type));
+            injector.inject(result);
+            return result;
         }
         
         private function createInstance(injector:IInjector, type:Type):Object
