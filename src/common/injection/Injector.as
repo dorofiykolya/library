@@ -71,6 +71,7 @@ package common.injection
         
         public function getProvider(type:Class, name:String = null):IProvider
         {
+            var key:String = getKey(type, name);
             var result:IProvider = _provider[key];
             if(result == null && _parent)
             {
