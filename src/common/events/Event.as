@@ -2,6 +2,7 @@ package common.events
 {
     import common.system.Cache;
     import common.system.ClassType;
+    import common.system.IDisposable;
     import common.system.TypeObject;
     import common.system.utils.formatString;
     
@@ -9,7 +10,7 @@ package common.events
      * ...
      * @author dorofiy.com
      */
-    public class Event extends TypeObject
+    public class Event extends TypeObject implements IDisposable
     {
         public static const ADDED:String = "added";
         public static const REMOVED:String = "removed";
@@ -32,6 +33,9 @@ package common.events
         {
             return CACHE[TYPE_NAME] || (CACHE[TYPE_NAME] = new <Event>[]);
         }
+        
+        internal var _disposed:Boolean;
+        internal var _inPool:Boolean;
         
         private var _target:EventDispatcher;
         private var _currentTarget:EventDispatcher;
@@ -126,30 +130,48 @@ package common.events
         
         public static function fromPool(type:Object, bubbles:Boolean = false, data:Object = null):Event
         {
+            var result:Event;
             if (eventPool.length)
-                return eventPool.pop().reinitializeEvent(type, bubbles, data, null);
+            {
+                result = eventPool.pop().reinitializeEvent(type, bubbles, data, null);
+            }
             else
-                return new Event(type).reinitializeEvent(type, bubbles, data, null);
+            {
+                result = new Event(type).reinitializeEvent(type, bubbles, data, null);
+            }
+            result._disposed = false;
+            result._inPool = false;
+            return result;
         }
         
         public static function toPool(event:Event):void
         {
+            if (event._inPool) return;
             event._data = event._target = event._currentTarget = null;
+            event._inPool = true;
             eventPool[eventPool.length] = event;
         }
         
         public static function fromPoolAs(typeClass:Class, type:Object, bubbles:Boolean, data:Object = null, args:Array = null):Event
         {
+            var result:Event;
             var collection:Vector.<Event> = Cache.cache.getStorageValue(TYPE_NAME_AS, typeClass);
             if (collection == null || collection.length == 0)
             {
-                return new typeClass(type).reinitializeEvent(type, bubbles, data, args);
+                result = new typeClass(type).reinitializeEvent(type, bubbles, data, args);
             }
-            return collection.pop().reinitializeEvent(type, bubbles, data, args);
+            else
+            {
+                result = collection.pop().reinitializeEvent(type, bubbles, data, args);
+            }
+            result._inPool = false;
+            result._disposed = false;
+            return result;
         }
         
         public static function toPoolAs(event:Event):void
         {
+            if (event._inPool) return;
             var type:Class = ClassType.getClass(event);
             var collection:Vector.<Event> = Cache.cache.getStorageValue(TYPE_NAME_AS, type);
             if (collection == null)
@@ -157,7 +179,16 @@ package common.events
                 collection = new Vector.<Event>();
                 Cache.cache.setStorageValue(TYPE_NAME_AS, type, collection);
             }
+            event._inPool = true;
             collection[collection.length] = event;
+        }
+        
+        /* INTERFACE common.system.IDisposable */
+        
+        public function dispose():void 
+        {
+            _disposed = true;
+            reset(null, false);
         }
         
         internal function reset(type:Object, bubbles:Boolean = false, data:Object = null):Event

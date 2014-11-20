@@ -14,6 +14,7 @@ package common.system.enums
 		public function NameEnum(name:String, value:Object)
 		{
 			super(value);
+            _name = name;
 			if (Object(this).constructor === NameEnum)
 			{
 				throw new ArgumentError('ArgumentError: ' + ClassType.getQualifiedClassName(this) + ' class cannot be instantiated.');

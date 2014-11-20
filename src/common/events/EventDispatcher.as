@@ -180,6 +180,10 @@ package common.events
             {
                 var event:Event = Event.fromPool(type, bubbles, data);
                 dispatchEvent(event);
+                if (!event._disposed)
+                {
+                    event.dispose();
+                }
                 Event.toPool(event);
             }
         }
@@ -190,6 +194,10 @@ package common.events
             {
                 var event:Event = Event.fromPoolAs(typeClass, type, bubbles, data, args);
                 dispatchEvent(event);
+                if (!event._disposed)
+                {
+                    event.dispose();
+                }
                 Event.toPoolAs(event);
             }
         }
