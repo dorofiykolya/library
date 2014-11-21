@@ -180,7 +180,7 @@ package common.composite
             {
                 if (_components.remove(item))
                 {
-                    Component.disposeComponent(item);
+                    item.dispose();
                     result = true;
                 }
             }
