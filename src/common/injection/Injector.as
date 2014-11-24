@@ -142,8 +142,11 @@ package common.injection
         {
             if (value)
             {
-                for each (var item:IDisposable in value)
+                var item:IDisposable;
+                for (var name:Object in value)
                 {
+                    item = value[name];
+                    delete value[name];
                     if (item)
                     {
                         item.dispose();

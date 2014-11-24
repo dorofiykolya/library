@@ -309,6 +309,10 @@ package common.system.utils
 			{
 				return;
 			}
+            if (domain == null)
+            {
+                domain = ApplicationDomain.currentDomain;
+            }
 			_register(type, domain);
 		}
 		
