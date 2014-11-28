@@ -413,9 +413,12 @@ package common.composite
         
         public function dispose():void
         {
-            for each (var item:Component in _collection.slice())
+            var temp:Vector.<Component> = _collection.slice();
+            var index:int = temp.length;
+            while(index > 0)
             {
-                item.dispose();
+                --index;
+                temp[index].dispose();
             }
             _iteratorCollection = null;
             _count = 0;

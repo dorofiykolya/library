@@ -7,7 +7,7 @@ package common.system.collection
 	 */
 	public interface IComparer
 	{
-		function compare(param1:Object, param2:Object):int;
+		function compare(value1:Object, value2:Object):int;
 	}
 
 }
