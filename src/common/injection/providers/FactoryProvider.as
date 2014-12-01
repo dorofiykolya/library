@@ -1,6 +1,7 @@
 package common.injection.providers
 {
     import common.injection.IInjector;
+    import common.system.Cache;
     import common.system.ClassType;
     import common.system.reflection.Parameter;
     import common.system.Type;
@@ -11,9 +12,25 @@ package common.injection.providers
      */
     public class FactoryProvider extends Provider
     {
+        private static const INJECTION_TYPE_NAME:String = ClassType.getQualifiedClassName(FactoryProvider) + "-info";
+        
+        private var _factory:FactoryConstructor;
+        
         public function FactoryProvider(type:Class, value:Object)
         {
             super(type, value);
+            initializeCache();
+        }
+        
+        private function initializeCache():void
+        {
+            var clazz:Class = Class(_value);
+            _factory = Cache.cache.getStorageValue(INJECTION_TYPE_NAME, clazz);
+            if (_factory == null)
+            {
+                _factory = new FactoryConstructor(clazz);
+                Cache.cache.setStorageValue(INJECTION_TYPE_NAME, clazz, _factory);
+            }
         }
         
         /* INTERFACE common.injection.depends.IDependency */
@@ -24,6 +41,7 @@ package common.injection.providers
             if (result)
             {
                 injector.inject(result);
+                _factory.apply(injector, result);
             }
             return result;
         }
@@ -50,11 +68,11 @@ package common.injection.providers
             else
             {
                 var params:Array = [];
-                for each (var param:Parameter in type.constructorInfo.parameters) 
+                for each (var param:Parameter in type.constructorInfo.parameters)
                 {
                     if (param.optional)
                     {
-                        if (!injector.getProvider(param.type)) 
+                        if (!injector.getProvider(param.type))
                         {
                             break;
                         }

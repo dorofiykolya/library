@@ -8,6 +8,7 @@ package common.injection.tags
     public class Tag
     {
         public static const INJECT:String = "Inject";
+        public static const CONSTRUCTOR:String = "Constructor";
         
         public function Tag()
         {
