@@ -108,47 +108,35 @@ package common.system
         //     
         //--------------------------------------------------------------------------
         
-        internal function getTypeCache(type:Class, isFactory:Boolean, domain:ApplicationDomain):Type
+        internal function getTypeCache(type:Class, isFactory:Boolean):Type
         {
-            var domainDict:Dictionary = this.typeCache[type];
-            var kind:Dictionary;
-            if (domainDict)
-            {
-                kind = domainDict[type];
-            }
+            var kind:TypeCache = this.typeCache[type];
             if (kind)
             {
                 if (isFactory)
                 {
-                    return kind.factory as Type;
+                    return kind.factoryType;
                 }
-                return kind.type as Type;
+                return kind.classType;
             }
             return null;
         }
         
-        internal function setTypeCache(type:Class, isFactory:Boolean, domain:ApplicationDomain, value:Type):void
+        internal function setTypeCache(type:Class, isFactory:Boolean, value:Type):void
         {
-            var domainDict:Dictionary = this.typeCache[type];
-            var kind:Dictionary;
-            if (domainDict == null)
-            {
-                domainDict = new Dictionary();
-                this.typeCache[domain] = domainDict;
-            }
-            kind = domainDict[type];
+            var kind:TypeCache = this.typeCache[type];
             if (kind == null)
             {
-                kind = new Dictionary();
-                domainDict[type] = kind;
+                kind = new TypeCache();
+                this.typeCache[type] = kind;
             }
             if (isFactory)
             {
-                kind.factory = value;
+                kind.factoryType = value;
             }
             else
             {
-                kind.type = value;
+                kind.classType = value;
             }
         }
         
@@ -219,4 +207,10 @@ package common.system
             return _instance ? _instance : _instance = new Cache();
         }
     }
+}
+import common.system.Type;
+class TypeCache
+{
+    public var factoryType:Type;
+    public var classType:Type;
 }

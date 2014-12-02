@@ -67,16 +67,12 @@ package common.system
 				type = Class(value);
 			}
 			var result:Type;
-			if (domain == null)
-			{
-				domain = ApplicationDomain.currentDomain;
-			}
-			result = CACHE.getTypeCache(type, isFactory, domain);
+			result = CACHE.getTypeCache(type, isFactory);
 			if (result == null)
 			{
 				result = new Type();
 				result._reflection = new Reflection(value, domain);
-				CACHE.setTypeCache(type, isFactory, domain, result);
+				CACHE.setTypeCache(type, isFactory, result);
 			}
 			return result;
 		}
@@ -89,12 +85,12 @@ package common.system
 		
 		public function get instanceType():Type
 		{
-			var result:Type = CACHE.getTypeCache(_reflection.constructorClass, true, _reflection.domain);
+			var result:Type = CACHE.getTypeCache(_reflection.constructorClass, true);
 			if (result == null)
 			{
 				result = new Type();
 				result._reflection = _reflection.factoryReflection;
-				CACHE.setTypeCache(_reflection.constructorClass, true, _reflection.domain, result);
+				CACHE.setTypeCache(_reflection.constructorClass, true, result);
 			}
 			return result;
 		}
