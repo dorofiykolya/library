@@ -323,7 +323,7 @@ package common.system.reflection
 			if (_hasInstance)
 			{
 				var result:Vector.<MetaData> = new Vector.<MetaData>();
-				for each (var item:MetaData in metaData)
+				for each (var item:MetaData in internalMetadata)
 				{
 					if (item._name == name)
 					{
@@ -339,7 +339,7 @@ package common.system.reflection
 		{
 			if (_hasInstance && _metadata == null)
 			{
-				_metadata = _getMetaData(_traits);
+				_metadata = internalMetadata;
 			}
 			return _metadata ? _metadata.slice() : null;
 		}
@@ -348,7 +348,7 @@ package common.system.reflection
 		{
 			if (_hasInstance)
 			{
-				for each (var item:Property in properties)
+				for each (var item:Property in internalProperties)
 				{
 					if (item._name == name)
 					{
@@ -363,7 +363,7 @@ package common.system.reflection
 		{
 			if (_hasInstance)
 			{
-				for each (var item:Field in fields)
+				for each (var item:Field in internalFields)
 				{
 					if (item.name == name)
 					{
@@ -378,7 +378,7 @@ package common.system.reflection
 		{
 			if (_hasInstance)
 			{
-				for each (var item:Method in methods)
+				for each (var item:Method in internalMethods)
 				{
 					if (item._name == name)
 					{
@@ -393,7 +393,7 @@ package common.system.reflection
 		{
 			if (_hasInstance)
 			{
-				for each (var item:Member in members)
+				for each (var item:Member in internalMembers)
 				{
 					if (item._name == name)
 					{
@@ -411,7 +411,7 @@ package common.system.reflection
 				return members;
 			}
 			var result:Vector.<Member> = new Vector.<Member>();
-			var tempMembers:Vector.<Member> = members;
+			var tempMembers:Vector.<Member> = internalMembers;
 			if (tempMembers)
 			{
 				for each (var member:Member in tempMembers)
@@ -429,28 +429,7 @@ package common.system.reflection
 		{
 			if (_hasInstance && _members == null)
 			{
-				_members = new Vector.<Member>();
-				var member:Member;
-				
-				for each (member in constants)
-				{
-					_members[_members.length] = member;
-				}
-				
-				for each (member in fields)
-				{
-					_members[_members.length] = member;
-				}
-				
-				for each (member in properties)
-				{
-					_members[_members.length] = member;
-				}
-				
-				for each (member in methods)
-				{
-					_members[_members.length] = member;
-				}
+				_members = internalMembers;
 			}
 			return _members ? _members.slice() : null;
 		}
@@ -462,7 +441,7 @@ package common.system.reflection
 				return properties;
 			}
 			var result:Vector.<Property> = new Vector.<Property>();
-			for each (var property:Property in properties) 
+			for each (var property:Property in internalProperties) 
 			{
 				if (property._access == access)
 				{
@@ -476,83 +455,43 @@ package common.system.reflection
 		{
 			if (_hasInstance && _properties == null)
 			{
-				_properties = new Vector.<Property>();
-				var property:Property;
-				for each (var current:Object in _traits.accessors)
-				{
-					property = new Property();
-					property._name = current.name;
-					property._type = _getType(current);
-					property._declaredBy = _getDeclaredBy(current);
-					property._nameSpace = _getNamespace(current);
-					property._metaData = _getMetaData(current);
-					property._access = Access.getAccess(current.access);
-					_properties[_properties.length] = property;
-				}
+				_properties = internalProperties;
 			}
 			return _properties ? _properties.slice() : null;
 		}
 		
 		public final function getMethods():Vector.<Method>
 		{
-			return methods;
+			if (_hasInstance && _methods == null)
+			{
+				_methods = internalMethods;
+			}
+			return _methods ? _methods.slice() : null;
 		}
 		
 		public final function get methods():Vector.<Method>
 		{
 			if (_hasInstance && _methods == null)
 			{
-				_methods = new Vector.<Method>();
-				var method:Method;
-				for each (var current:Object in _traits.methods)
-				{
-					method = new Method();
-					method._name = current.name;
-					method._returnType = _getReturnType(current);
-					method._nameSpace = _getNamespace(current);
-					method._parameters = _getParameters(current);
-					method._declaredBy = _getDeclaredBy(current);
-					method._type = Function;
-					method._metaData = _getMetaData(current);
-					_methods[_methods.length] = method;
-				}
+				_methods = internalMethods;
 			}
 			return _methods ? _methods.slice() : null;
 		}
 		
 		public final function getFields():Vector.<Field>
 		{
-			return fields;
+			if (_hasInstance && _fields == null)
+			{
+				_fields = internalFields;
+			}
+			return _fields ? _fields.slice() : null;
 		}
 		
 		public final function get fields():Vector.<Field>
 		{
 			if (_hasInstance && _fields == null)
 			{
-				var readOnly:String = String(Access.READONLY.value);
-				
-				_fields = new Vector.<Field>();
-				_constants = new Vector.<Constant>();
-				
-				var member:Member;
-				for each (var current:Object in _traits.variables)
-				{
-					if (current.access == readOnly)
-					{
-						member = new Constant();
-						_constants[_constants.length] = Constant(member);
-					}
-					else
-					{
-						member = new Field();
-						_fields[_fields.length] = Field(member);
-					}
-					
-					member._name = current.name;
-					member._type = _getType(current);
-					member._metaData = _getMetaData(current);
-					member._nameSpace = _getNamespace(current);
-				}
+				_fields = internalFields;
 			}
 			return _fields ? _fields.slice() : null;
 		}
@@ -561,37 +500,18 @@ package common.system.reflection
 		{
 			if (_hasInstance && _constants == null)
 			{
-				var readOnly:String = String(Access.READONLY.value);
-				
-				_fields = new Vector.<Field>();
-				_constants = new Vector.<Constant>();
-				
-				var member:Member;
-				for each (var current:Object in _traits.variables)
-				{
-					if (current.access == readOnly)
-					{
-						member = new Constant();
-						_constants[_constants.length] = Constant(member);
-					}
-					else
-					{
-						member = new Field();
-						_fields[_fields.length] = Field(member);
-					}
-					
-					member._name = current.name;
-					member._type = _getType(current);
-					member._metaData = _getMetaData(current);
-					member._nameSpace = _getNamespace(current);
-				}
+				_constants = internalConstants;
 			}
 			return _constants ? _constants.slice() : null;
 		}
 		
 		public final function getConstants():Vector.<Constant>
 		{
-			return constants;
+			if (_hasInstance && _constants == null)
+			{
+				_constants = internalConstants;
+			}
+			return _constants ? _constants.slice() : null;
 		}
 		
 		public final function get constructorInfo():Constructor
@@ -603,8 +523,8 @@ package common.system.reflection
 				_constructor._returnType = null;
 				_constructor._type = _class;
 				_constructor._declaredBy = _class;
-				_constructor._metaData = _getMetaData(_traits.constructor);
-				_constructor._parameters = _getParametersByArray(_traits.constructor);
+				_constructor._metaData = internalGetMetaData(_traits.constructor);
+				_constructor._parameters = internalGetParametersByArray(_traits.constructor);
 			}
 			return _constructor;
 		}
@@ -618,7 +538,7 @@ package common.system.reflection
 		{
 			if (_hasInstance && _isFunction && _parameters == null)
 			{
-				_parameters = _getParameters(_describeType);
+				_parameters = internalGetParameters(_describeType);
 			}
 			return _parameters ? _parameters.slice() : null;
 		}
@@ -627,11 +547,7 @@ package common.system.reflection
 		{
 			if (_hasInstance && _extendsClasses == null)
 			{
-				_extendsClasses = new Vector.<Class>();
-				for each (var current:Object in _traits.bases)
-				{
-					_extendsClasses[_extendsClasses.length] = _getType(current);
-				}
+				_extendsClasses = internalExtendsClasses;
 			}
 			return _extendsClasses ? _extendsClasses.slice() : null;
 		}
@@ -640,11 +556,7 @@ package common.system.reflection
 		{
 			if (_hasInstance && _interfaces == null)
 			{
-				_interfaces = new Vector.<Class>();
-				for each (var current:Object in _traits.interfaces)
-				{
-					_interfaces[_interfaces.length] = _getType(current);
-				}
+				_interfaces = internalInterfaces;
 			}
 			return _interfaces ? _interfaces.slice() : null;
 		}
@@ -653,7 +565,11 @@ package common.system.reflection
 		{
 			if (_hasInstance && type)
 			{
-				return extendsClasses.indexOf(type) != -1;
+                if (_extendsClasses)
+                {
+                    return _extendsClasses.indexOf(type) != -1;
+                }
+				return internalExtendsClasses.indexOf(type) != -1;
 			}
 			return false;
 		}
@@ -662,7 +578,11 @@ package common.system.reflection
 		{
 			if (_hasInstance && type)
 			{
-				return interfaces.indexOf(type) != -1;
+                if (_interfaces)
+                {
+                    return _interfaces.indexOf(type) != -1;
+                }
+				return internalInterfaces.indexOf(type) != -1;
 			}
 			return false;
 		}
@@ -676,7 +596,7 @@ package common.system.reflection
 		{
 			if (_hasInstance && type)
 			{
-				return extendsClasses.indexOf(type) != -1 || interfaces.indexOf(type) != -1;
+				return internalExtendsClasses.indexOf(type) != -1 || internalInterfaces.indexOf(type) != -1;
 			}
 			return false;
 		}
@@ -701,7 +621,7 @@ package common.system.reflection
 				}
 				if (constructorInfo.requiredParameterCount > args.length)
 				{
-					throw new ArgumentError(ClassType.getQualifiedClassName(this) + ", wrong number of arguments");
+					throw new ArgumentError(ClassType.getQualifiedClassName(this) + ", newInstance() - wrong number of arguments");
 				}
 				var argumentLen:int = Math.min(args.length, params.length);
 				switch (argumentLen)
@@ -782,21 +702,193 @@ package common.system.reflection
 		{
 			return _class;
 		}
+        
+        private final function get internalMethods():Vector.<Method>
+		{
+			if (_hasInstance && _methods == null)
+			{
+				_methods = new Vector.<Method>();
+				var method:Method;
+				for each (var current:Object in _traits.methods)
+				{
+					method = new Method();
+					method._name = current.name;
+					method._returnType = internalGetReturnType(current);
+					method._nameSpace = internalGetNamespace(current);
+					method._parameters = internalGetParameters(current);
+					method._declaredBy = internalGetDeclaredBy(current);
+					method._type = Function;
+					method._metaData = internalGetMetaData(current);
+					_methods[_methods.length] = method;
+				}
+			}
+			return _methods ? _methods : null;
+		}
+        
+        private final function get internalProperties():Vector.<Property>
+        {
+            if (_hasInstance && _properties == null)
+			{
+				_properties = new Vector.<Property>();
+				var property:Property;
+				for each (var current:Object in _traits.accessors)
+				{
+					property = new Property();
+					property._name = current.name;
+					property._type = internalGetType(current);
+					property._declaredBy = internalGetDeclaredBy(current);
+					property._nameSpace = internalGetNamespace(current);
+					property._metaData = internalGetMetaData(current);
+					property._access = Access.getAccess(current.access);
+					_properties[_properties.length] = property;
+				}
+			}
+			return _properties ? _properties : null;
+        }
+        
+        private final function get internalMembers():Vector.<Member>
+		{
+			if (_hasInstance && _members == null)
+			{
+				_members = new Vector.<Member>();
+				var member:Member;
+				
+				for each (member in internalConstants)
+				{
+					_members[_members.length] = member;
+				}
+				
+				for each (member in internalFields)
+				{
+					_members[_members.length] = member;
+				}
+				
+				for each (member in internalProperties)
+				{
+					_members[_members.length] = member;
+				}
+				
+				for each (member in internalMethods)
+				{
+					_members[_members.length] = member;
+				}
+			}
+			return _members ? _members : null;
+		}
+        
+        private final function get internalFields():Vector.<Field>
+		{
+			if (_hasInstance && _fields == null)
+			{
+				var readOnly:String = String(Access.READONLY.value);
+				
+				_fields = new Vector.<Field>();
+				_constants = new Vector.<Constant>();
+				
+				var member:Member;
+				for each (var current:Object in _traits.variables)
+				{
+					if (current.access == readOnly)
+					{
+						member = new Constant();
+						_constants[_constants.length] = Constant(member);
+					}
+					else
+					{
+						member = new Field();
+						_fields[_fields.length] = Field(member);
+					}
+					
+					member._name = current.name;
+					member._type = internalGetType(current);
+					member._metaData = internalGetMetaData(current);
+					member._nameSpace = internalGetNamespace(current);
+				}
+			}
+			return _fields ? _fields : null;
+		}
+        
+        private final function get internalConstants():Vector.<Constant>
+		{
+			if (_hasInstance && _constants == null)
+			{
+				var readOnly:String = String(Access.READONLY.value);
+				
+				_fields = new Vector.<Field>();
+				_constants = new Vector.<Constant>();
+				
+				var member:Member;
+				for each (var current:Object in _traits.variables)
+				{
+					if (current.access == readOnly)
+					{
+						member = new Constant();
+						_constants[_constants.length] = Constant(member);
+					}
+					else
+					{
+						member = new Field();
+						_fields[_fields.length] = Field(member);
+					}
+					
+					member._name = current.name;
+					member._type = internalGetType(current);
+					member._metaData = internalGetMetaData(current);
+					member._nameSpace = internalGetNamespace(current);
+				}
+			}
+			return _constants ? _constants : null;
+		}
+        
+        private final function get internalMetadata():Vector.<MetaData>
+        {
+            if (_hasInstance && _metadata == null)
+			{
+				_metadata = internalGetMetaData(_traits);
+			}
+			return _metadata ? _metadata : null;
+        }
+        
+        private final function get internalExtendsClasses():Vector.<Class>
+		{
+			if (_hasInstance && _extendsClasses == null)
+			{
+				_extendsClasses = new Vector.<Class>();
+				for each (var current:Object in _traits.bases)
+				{
+					_extendsClasses[_extendsClasses.length] = internalGetType(current);
+				}
+			}
+			return _extendsClasses ? _extendsClasses : null;
+		}
 		
-		private function _getMetaData(value:Object):Vector.<MetaData>
+		private final function get internalInterfaces():Vector.<Class>
+		{
+			if (_hasInstance && _interfaces == null)
+			{
+				_interfaces = new Vector.<Class>();
+				for each (var current:Object in _traits.interfaces)
+				{
+					_interfaces[_interfaces.length] = internalGetType(current);
+				}
+			}
+			return _interfaces ? _interfaces : null;
+		}
+		
+		private function internalGetMetaData(value:Object):Vector.<MetaData>
 		{
 			var result:Vector.<MetaData> = new Vector.<MetaData>();
 			if (value)
 			{
 				for each (var current:Object in value.metadata)
 				{
-					result[result.length] = _exctractMetadata(current);
+					result[result.length] = internalExctractMetadata(current);
 				}
 			}
 			return result;
 		}
 		
-		private function _exctractMetadata(value:Object):MetaData
+		private function internalExctractMetadata(value:Object):MetaData
 		{
 			var meta:MetaData = new MetaData();
 			meta._name = value.name;
@@ -810,7 +902,7 @@ package common.system.reflection
 			return meta;
 		}
 		
-		private function _getParametersByArray(value:Object):Vector.<Parameter>
+		private function internalGetParametersByArray(value:Object):Vector.<Parameter>
 		{
 			var result:Vector.<Parameter> = new Vector.<Parameter>();
 			var i:int = 1;
@@ -821,7 +913,7 @@ package common.system.reflection
 				{
 					parameter = new Parameter();
 					parameter._index = i;
-					parameter._type = _getType(current);
+					parameter._type = internalGetType(current);
 					parameter._optional = current.optional;
 					result[result.length] = parameter;
 					i++;
@@ -830,7 +922,7 @@ package common.system.reflection
 			return result;
 		}
 		
-		private function _getParameters(value:Object):Vector.<Parameter>
+		private function internalGetParameters(value:Object):Vector.<Parameter>
 		{
 			var result:Vector.<Parameter> = new Vector.<Parameter>();
 			var i:int = 1;
@@ -841,7 +933,7 @@ package common.system.reflection
 				{
 					parameter = new Parameter();
 					parameter._index = i;
-					parameter._type = _getType(current);
+					parameter._type = internalGetType(current);
 					parameter._optional = current.optional;
 					result[result.length] = parameter;
 					i++;
@@ -850,7 +942,7 @@ package common.system.reflection
 			return result;
 		}
 		
-		private function _getReturnType(value:Object):Class
+		private function internalGetReturnType(value:Object):Class
 		{
 			var type:String = value.returnType;
 			if (type == "void")
@@ -860,7 +952,7 @@ package common.system.reflection
 			return Class(getDefinitionByName(_domain, type));
 		}
 		
-		private function _getDeclaredBy(value:Object):Class
+		private function internalGetDeclaredBy(value:Object):Class
 		{
 			var type:String = value.declaredBy;
 			if (type == "*" || type == "void")
@@ -870,7 +962,7 @@ package common.system.reflection
 			return Class(getDefinitionByName(_domain, type));
 		}
 		
-		private function _getType(value:Object):Class
+		private function internalGetType(value:Object):Class
 		{
 			var type:String = value as String;
 			if(type == null)
@@ -884,7 +976,7 @@ package common.system.reflection
 			return Class(getDefinitionByName(_domain, type));
 		}
 		
-		private function _getNamespace(value:Object):Namespace
+		private function internalGetNamespace(value:Object):Namespace
 		{
 			var uri:String = value.uri;
 			if (uri)
