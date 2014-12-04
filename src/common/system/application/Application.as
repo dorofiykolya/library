@@ -6,12 +6,14 @@ package common.system.application
 	import common.system.Environment;
 	import common.system.ITypeObject;
 	import common.system.Type;
+    import flash.display.LoaderInfo;
 	import flash.display.MovieClip;
 	import flash.display.Stage;
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
 	import flash.events.Event;
 	import flash.system.Security;
+    import flash.utils.setTimeout;
 	
 	/**
 	 * ...
@@ -59,14 +61,6 @@ package common.system.application
 			{
 				addEventListener(Event.ADDED_TO_STAGE, addToStageHandler);
 			}
-			if (loaderInfo.bytesLoaded == loaderInfo.bytesTotal)
-			{
-				loadCompleteHandler();
-			}
-			else
-			{
-				loaderInfo.addEventListener(Event.COMPLETE, loadCompleteHandler);
-			}
 		}
 		
 		private function loadCompleteHandler(event:Event = null):void
@@ -77,12 +71,22 @@ package common.system.application
 		
 		private function addToStageHandler(event:Event = null):void
 		{
+            var loaderInfo:LoaderInfo;
 			removeEventListener(Event.ADDED_TO_STAGE, addToStageHandler);
-			_parameters = stage.loaderInfo.parameters;
 			_stage = stage;
+            loaderInfo = _stage.loaderInfo;
+			_parameters = loaderInfo.parameters;
 			_stage.scaleMode = StageScaleMode.NO_SCALE;
 			_stage.align = StageAlign.TOP_LEFT;
-			completeValidateHandler();
+            
+            if (loaderInfo.bytesLoaded == loaderInfo.bytesTotal)
+			{
+				loadCompleteHandler();
+			}
+			else
+			{
+				loaderInfo.addEventListener(Event.COMPLETE, loadCompleteHandler);
+			}
 		}
 		
 		private function completeValidateHandler():void
