@@ -6,6 +6,8 @@ package common.system
 	 */
 	public dynamic class TypeObject extends Object implements ITypeObject
 	{
+        private var _toString:String;
+        
 		//----------------------------------
 		//	CONSTRUCTOR
 		//----------------------------------
@@ -28,7 +30,7 @@ package common.system
 		
 		public function toString():String
 		{
-			return "[" + String(ClassType.getClass(this)).replace(/(\[class |\])/g, "") + " (" + ClassType.getQualifiedClassName(this) + ")]";
+			return _toString || (_toString = "[" + String(ClassType.getClass(this)).replace(/(\[class |\])/g, "") + " (" + ClassType.getQualifiedClassName(this) + ")]");
 		}
 	}
 }
