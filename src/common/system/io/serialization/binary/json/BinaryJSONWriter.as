@@ -77,7 +77,10 @@ package common.system.io.serialization.binary.json
 			{
 				writeArray(value, buffer);
 			}
-			writeBuffer(ObjectUtils.toObject(value), buffer);
+			else 
+            {
+                writeBuffer(ObjectUtils.toObject(value), buffer);
+            }
 		}
 		
 		protected function writeArray(value:Object, buffer:ByteArray):void
