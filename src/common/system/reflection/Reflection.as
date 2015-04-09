@@ -180,6 +180,11 @@ package common.system.reflection
 		{
 			return _isDynamic || _isArray || _isVector || _isDictionary;
 		}
+        
+        public final function get isInterface():Boolean
+        {
+            return _hasInstance? factoryReflection.internalExtendsClasses.length == 0 : false;
+        }
 		
 		public final function get isFactory():Boolean
 		{
@@ -698,7 +703,7 @@ package common.system.reflection
 			return String(_value);
 		}
 		
-		public function get type():Class
+		public final function get type():Class
 		{
 			return _class;
 		}

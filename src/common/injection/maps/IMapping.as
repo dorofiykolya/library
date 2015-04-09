@@ -12,7 +12,7 @@ package common.injection.maps
         function get provider():IProvider;
         function toFactory(type:Class):void;
         function toValue(value:Object):void;
-        function toSingleton(type:Class):void;
+        function toSingleton(type:Class, oneInstance:Boolean = true):void;
         function toProvider(provider:IProvider):void;
         function asSingleton():void;
     }

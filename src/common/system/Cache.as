@@ -213,4 +213,9 @@ class TypeCache
 {
     public var factoryType:Type;
     public var classType:Type;
+    
+    public function TypeCache()
+    {
+        
+    }
 }

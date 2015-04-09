@@ -5,6 +5,7 @@ package common.injection.maps
     import common.injection.providers.SingletonProvider;
     import common.injection.providers.ValueProvider;
     import common.injection.Injector;
+    import common.system.ClassType;
     import common.system.TypeObject;
     
     /**
@@ -33,6 +34,10 @@ package common.injection.maps
         
         public function toFactory(type:Class):void
         {
+            if (ClassType.getType(type).isInterface)
+            {
+                throw new ArgumentError("The constructor of" + type + " is not implemented. Cannot create an interface " + type);
+            }
             toProvider(new FactoryProvider(_type, type));
         }
         
@@ -41,9 +46,13 @@ package common.injection.maps
             toProvider(new ValueProvider(_type, value));
         }
         
-        public function toSingleton(type:Class):void
+        public function toSingleton(type:Class, oneInstance:Boolean = true):void
         {
-            toProvider(new SingletonProvider(_type, type));
+            if (ClassType.getType(type).isInterface)
+            {
+                throw new ArgumentError("The constructor of" + type + " is not implemented. Cannot create an interface " + type);
+            }
+            toProvider(new SingletonProvider(_type, type, oneInstance));
         }
         
         public function toProvider(provider:IProvider):void
@@ -53,6 +62,10 @@ package common.injection.maps
         
         public function asSingleton():void
         {
+            if (ClassType.getType(_type).isInterface)
+            {
+                throw new ArgumentError("The constructor of" + _type + " is not implemented. Cannot create an interface " + _type);
+            }
             toSingleton(_type);
         }
         

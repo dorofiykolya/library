@@ -226,6 +226,11 @@ package common.system
 		{
 			return _reflection.isArray;
 		}
+        
+        public function get isInterface():Boolean
+        {
+            return _reflection.isInterface;
+        }
 		
 		public function get isClass():Boolean 
 		{
