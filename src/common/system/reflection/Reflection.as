@@ -183,7 +183,7 @@ package common.system.reflection
         
         public final function get isInterface():Boolean
         {
-            return _hasInstance? factoryReflection.internalExtendsClasses.length == 0 : false;
+            return _hasInstance? factoryReflection.internalExtendsClasses.length == 0 && _class != Object : false;
         }
 		
 		public final function get isFactory():Boolean
