@@ -19,26 +19,56 @@ package common.system
         
         }
         
+        /**
+         * 
+         * @param value
+         * @param domain
+         * @return
+         */
         public static function getClassType(value:Object, domain:ApplicationDomain = null):Type
         {
             return Type.getType(value, domain).classType;
         }
         
+        /**
+         * 
+         * @param value
+         * @param domain
+         * @return
+         */
         public static function getInstanceType(value:Object, domain:ApplicationDomain = null):Type
         {
             return Type.getType(value, domain).instanceType;
         }
         
+        /**
+         * 
+         * @param subclass
+         * @param superclass
+         * @return
+         */
         public static function isSubclassOf(subclass:Object, superclass:Class):Boolean
         {
             return getInstanceType(subclass).isSubclassOf(superclass);
         }
         
+        /**
+         * 
+         * @param value
+         * @param domain
+         * @return
+         */
         public static function getType(value:Object, domain:ApplicationDomain = null):Type
         {
             return Type.getType(value, domain);
         }
         
+        /**
+         * 
+         * @param name
+         * @param domain
+         * @return
+         */
         public static function getDefinition(name:String, domain:ApplicationDomain = null):Object
         {
             if (name == null)
@@ -66,6 +96,12 @@ package common.system
             return result;
         }
         
+        /**
+         * 
+         * @param className
+         * @param domain
+         * @return
+         */
         public static function getClassByName(className:String, domain:ApplicationDomain = null):Class
         {
             if (className == null)
@@ -93,21 +129,44 @@ package common.system
             return result;
         }
         
+        /**
+         * 
+         * @param className
+         * @param domain
+         * @return
+         */
         public static function getTypeByClassName(className:String, domain:ApplicationDomain = null):Type
         {
             return getType(getClassByName(className, domain));
         }
         
+        /**
+         * 
+         * @param className
+         * @param domain
+         * @return
+         */
         public static function getClassTypeByClassName(className:String, domain:ApplicationDomain = null):Type
         {
             return getType(getClassByName(className, domain)).classType;
         }
         
+        /**
+         * 
+         * @param className
+         * @param domain
+         * @return
+         */
         public static function getInstanceTypeByClassName(className:String, domain:ApplicationDomain = null):Type
         {
             return getType(getClassByName(className, domain)).instanceType;
         }
         
+        /**
+         * 
+         * @param object
+         * @return
+         */
         public static function isPrivateClass(object:*):Boolean
         {
             if (object == null)
@@ -125,6 +184,21 @@ package common.system
             return (ns === "" || ns.indexOf(".as$") > -1);
         }
         
+        /**
+         * 
+         * @param type
+         * @return
+         */
+        public static function isInterface(type:Class):Boolean
+        {
+            return ClassType.getInstanceType(type).isInterface;
+        }
+        
+        /**
+         * 
+         * @param value
+         * @return
+         */
         public static function getAsClass(value:Object):Class
         {
             if (value is Class)
@@ -134,6 +208,11 @@ package common.system
             return getClass(value);
         }
         
+        /**
+         * 
+         * @param value
+         * @return
+         */
         public static function getClass(value:Object):Class
         {
             if (value == null)
@@ -159,31 +238,63 @@ package common.system
             return Class(ClassType.getDefinitionByName(ClassType.getQualifiedClassName(value)));
         }
         
+        /**
+         * 
+         * @param type
+         * @param ... args
+         * @return
+         */
         public static function newInstance(type:Class, ... args):Object
         {
             return getInstanceType(type).newInstance.apply(null, args);
         }
         
+        /**
+         * 
+         * @param type
+         * @param args
+         * @return
+         */
         public static function newInstanceWith(type:Class, args:Array):Object
         {
             return getInstanceType(type).newInstance.apply(null, args);
         }
         
+        /**
+         * 
+         * @param value
+         * @return
+         */
         public static function getQualifiedClassName(value:*):String
         {
             return flash.utils.getQualifiedClassName(value);
         }
         
+        /**
+         * 
+         * @param value
+         * @return
+         */
         public static function getQualifiedSuperclassName(value:*):String
         {
             return flash.utils.getQualifiedSuperclassName(value);
         }
         
+        /**
+         * 
+         * @param name
+         * @return
+         */
         public static function getDefinitionByName(name:String):Object
         {
             return flash.utils.getDefinitionByName(name);
         }
         
+        /**
+         * 
+         * @param value
+         * @return
+         */
         public static function isVector(value:Object):Boolean
         {
             var cls:String = flash.utils.getQualifiedClassName(value);
@@ -194,6 +305,11 @@ package common.system
             return false;
         }
         
+        /**
+         * 
+         * @param value
+         * @return
+         */
         public static function isPrimitive(value:Object):Boolean
         {
             if (value)
