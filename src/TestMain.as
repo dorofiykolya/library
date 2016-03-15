@@ -4,6 +4,7 @@ package
 	import common.composite.Entity;
 	import common.injection.Injector;
 	import flash.display.Sprite;
+	import mvc.MVCContext;
 	import test.ITestInject;
 	import test.TestInjection;
 	import test.TestInto;
@@ -25,6 +26,8 @@ package
 			i.inject(t);
 			
 			trace(t.into.log());
+			
+			new MVCContext();
 			
 		}
 	}

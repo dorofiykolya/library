@@ -8,11 +8,11 @@
     <movie fps="30" />
     <movie width="800" />
     <movie height="600" />
-    <movie version="4" />
+    <movie version="20" />
     <movie minorVersion="0" />
-    <movie platform="AIR" />
+    <movie platform="AIR Mobile" />
     <movie background="#FFFFFF" />
-    <movie preferredSDK="Flex 4.6.0, AIR 4.0;4.6.0, 4.0;" />
+    <movie preferredSDK="Flex 4.6.0, AIR 20.0;4.6.0, 20.0;" />
   </output>
   <!-- Other classes to be compiled into your SWF -->
   <classpaths>

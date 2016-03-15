@@ -740,7 +740,7 @@ package common.system.reflection
 				{
 					property = new Property();
 					property._name = current.name;
-					property._type = internalGetType(current);
+					property._typeName = internalGetTypeName(current);
 					property._declaredBy = internalGetDeclaredBy(current);
 					property._nameSpace = internalGetNamespace(current);
 					property._metaData = internalGetMetaData(current);
@@ -805,7 +805,7 @@ package common.system.reflection
 					}
 					
 					member._name = current.name;
-					member._type = internalGetType(current);
+					member._typeName = internalGetTypeName(current);
 					member._metaData = internalGetMetaData(current);
 					member._nameSpace = internalGetNamespace(current);
 				}
@@ -837,7 +837,7 @@ package common.system.reflection
 					}
 					
 					member._name = current.name;
-					member._type = internalGetType(current);
+					member._typeName = internalGetTypeName(current);
 					member._metaData = internalGetMetaData(current);
 					member._nameSpace = internalGetNamespace(current);
 				}
@@ -979,6 +979,20 @@ package common.system.reflection
 				return null;
 			}
 			return Class(getDefinitionByName(_domain, type));
+		}
+		
+		private function internalGetTypeName(value:Object):String
+		{
+			var type:String = value as String;
+			if(type == null)
+			{
+				type = value.type;
+			}
+			if (type == "*")
+			{
+				return null;
+			}
+			return type;
 		}
 		
 		private function internalGetNamespace(value:Object):Namespace
