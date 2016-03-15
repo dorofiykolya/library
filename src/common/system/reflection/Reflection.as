@@ -977,7 +977,7 @@ package common.system.reflection
 			return Class(getDefinitionByName(_domain, type));
 		}
 		
-		private function internalGetDeclaredByName(value:Object):Class
+		private function internalGetDeclaredByName(value:Object):String
 		{
 			var type:String = value.declaredBy;
 			if (type == "*" || type == "void")
