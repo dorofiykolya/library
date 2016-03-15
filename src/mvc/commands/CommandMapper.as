@@ -35,7 +35,12 @@ package mvc.commands
         
         private function onEventDispatcherHandler(event:Object = null):void
         {
-            if (_type == null || event is _type)
+            executeCommand(event);
+        }
+		
+		protected function executeCommand(event:Object = null)
+		{
+			if (_type == null || event is _type)
             {
                 var command:ICommand;
                 var disposable:IDisposable;
@@ -62,7 +67,7 @@ package mvc.commands
                     }
                 }
             }
-        }
+		}
         
         /* INTERFACE com.okapp.mvc.commands.ICommanMapperRemove */
         

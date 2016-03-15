@@ -5,7 +5,7 @@ package common.system
 	 * ...
 	 * @author ...
 	 */
-	public class DictionaryMap 
+	public class DictionaryMap extends TypeObject
 	{
 		
 		private var _target:*;

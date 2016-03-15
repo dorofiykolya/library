@@ -53,5 +53,10 @@ package mvc.commands
             _context = null;
             _eventDispatcher = null;
         }
+		
+		protected function get mapper():Dictionary
+		{
+			return _map;
+		}
     }
 }
