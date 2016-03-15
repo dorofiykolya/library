@@ -718,10 +718,10 @@ package common.system.reflection
 				{
 					method = new Method();
 					method._name = current.name;
-					method._returnType = internalGetReturnType(current);
+					method._returnTypeName = internalGetReturnTypeName(current);
 					method._nameSpace = internalGetNamespace(current);
 					method._parameters = internalGetParameters(current);
-					method._declaredBy = internalGetDeclaredBy(current);
+					method._declaredByName = internalGetDeclaredByName(current);
 					method._type = Function;
 					method._metaData = internalGetMetaData(current);
 					_methods[_methods.length] = method;
@@ -741,7 +741,7 @@ package common.system.reflection
 					property = new Property();
 					property._name = current.name;
 					property._typeName = internalGetTypeName(current);
-					property._declaredBy = internalGetDeclaredBy(current);
+					property._declaredByName = internalGetDeclaredByName(current);
 					property._nameSpace = internalGetNamespace(current);
 					property._metaData = internalGetMetaData(current);
 					property._access = Access.getAccess(current.access);
@@ -918,7 +918,7 @@ package common.system.reflection
 				{
 					parameter = new Parameter();
 					parameter._index = i;
-					parameter._type = internalGetType(current);
+					parameter._typeName = internalGetTypeName(current);
 					parameter._optional = current.optional;
 					result[result.length] = parameter;
 					i++;
@@ -938,7 +938,7 @@ package common.system.reflection
 				{
 					parameter = new Parameter();
 					parameter._index = i;
-					parameter._type = internalGetType(current);
+					parameter._typeName = internalGetTypeName(current);
 					parameter._optional = current.optional;
 					result[result.length] = parameter;
 					i++;
@@ -957,6 +957,16 @@ package common.system.reflection
 			return Class(getDefinitionByName(_domain, type));
 		}
 		
+		private function internalGetReturnTypeName(value:Object):String
+		{
+			var type:String = value.returnType;
+			if (type == "void")
+			{
+				return null;
+			}
+			return type;
+		}
+		
 		private function internalGetDeclaredBy(value:Object):Class
 		{
 			var type:String = value.declaredBy;
@@ -965,6 +975,16 @@ package common.system.reflection
 				return null;
 			}
 			return Class(getDefinitionByName(_domain, type));
+		}
+		
+		private function internalGetDeclaredByName(value:Object):Class
+		{
+			var type:String = value.declaredBy;
+			if (type == "*" || type == "void")
+			{
+				return null;
+			}
+			return type;
 		}
 		
 		private function internalGetType(value:Object):Class

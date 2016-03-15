@@ -61,9 +61,8 @@ package common.system.reflection
 			if (_typeName != null)
 			{
 				_type = internalGetType(_typeName);
-				return _type;
 			}
-            return null;
+            return _type;
         }
         
         public function get nameSpace():Namespace

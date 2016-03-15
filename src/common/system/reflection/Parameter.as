@@ -1,5 +1,6 @@
 package common.system.reflection
 {
+	import common.system.ClassType;
 	import common.system.TypeObject;
 	
 	/**
@@ -9,6 +10,7 @@ package common.system.reflection
 	public class Parameter extends TypeObject
 	{
 		internal var _index:int;
+		internal var _typeName:String;
 		internal var _type:Class;
 		internal var _optional:Boolean;
 		
@@ -24,6 +26,14 @@ package common.system.reflection
 		
 		public function get type():Class 
 		{
+			if (_type != null)
+			{
+				return _type;
+			}
+			if (_typeName != null)
+			{
+				_type = Class(ClassType.getDefinitionByName(_typeName));
+			}
 			return _type;
 		}
 		

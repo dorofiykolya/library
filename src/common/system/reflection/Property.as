@@ -1,5 +1,6 @@
 package common.system.reflection
 {
+	import common.system.ClassType;
 	
 	/**
 	 * ...
@@ -8,6 +9,7 @@ package common.system.reflection
 	public class Property extends Member
 	{
 		internal var _access:Access;
+		internal var _declaredByName:String;
 		internal var _declaredBy:Class;
 		
 		public function Property()
@@ -22,6 +24,14 @@ package common.system.reflection
 		
 		public function get declaredBy():Class
 		{
+			if (_declaredBy != null)
+			{
+				return _declaredBy;
+			}
+			if (_declaredByName != null)
+			{
+				_declaredBy = Class(ClassType.getDefinitionByName(_declaredByName));
+			}
 			return _declaredBy;
 		}
 	}
