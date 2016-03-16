@@ -7,7 +7,6 @@ package common.system
 	 */
 	public class DictionaryMap extends TypeObject
 	{
-		
 		private var _target:*;
 		private var _dictionary:Dictionary;
 		private var _parent:DictionaryMap;
@@ -59,7 +58,7 @@ package common.system
 		private function getDictionary(key:Object):DictionaryMap
 		{
 			_dictionary = _dictionary || new Dictionary();
-			var result:DictionaryPath = _dictionary[key];
+			var result:DictionaryMap = _dictionary[key];
 			if (result == null)
 			{
 				result = new DictionaryMap();

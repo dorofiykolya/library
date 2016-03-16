@@ -7,7 +7,7 @@ package common.system
      * ...
      * @author dorofiy.com
      */
-    public dynamic class Cache extends DictionaryMap
+    public dynamic class Cache extends TypeObject
     {
         //--------------------------------------------------------------------------
         //	PRIVATE VARIABLES STATIC
@@ -44,9 +44,8 @@ package common.system
         //     
         //--------------------------------------------------------------------------
         
-        public override function clear():void
+        public function clear():void
         {
-			super.clear();
             clearDictionary(this);
             clearDictionary(typeCache);
             clearDictionary(enumValueCache);

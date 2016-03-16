@@ -38,7 +38,7 @@ package mvc.commands
             executeCommand(event);
         }
 		
-		protected function executeCommand(event:Object = null)
+		protected function executeCommand(event:Object = null):void
 		{
 			if (_type == null || event is _type)
             {
