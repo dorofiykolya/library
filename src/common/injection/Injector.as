@@ -22,8 +22,9 @@ package common.injection
         private var _provider:Dictionary;
         private var _parent:IInjector;
         
-        public function Injector()
+        public function Injector(parent:IInjector = null)
         {
+			_parent = parent;
             _map = new Dictionary();
             _provider = new Dictionary();
         }

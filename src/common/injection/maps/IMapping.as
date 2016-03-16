@@ -15,5 +15,6 @@ package common.injection.maps
         function toSingleton(type:Class, oneInstance:Boolean = true):void;
         function toProvider(provider:IProvider):void;
         function asSingleton():void;
+        function asFactory():void;
     }
 }
