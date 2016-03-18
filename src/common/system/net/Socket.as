@@ -5,6 +5,7 @@ package common.system.net
 	import common.system.ITypeObject;
 	import common.system.Type;
 	import flash.net.Socket;
+	import flash.system.Security;
 	
 	/**
 	 * ...
@@ -20,6 +21,7 @@ package common.system.net
 		
 		private var _host:String;
 		private var _port:int;
+		private var _loadPolicyFile:Boolean;
 		
 		//----------------------------------
 		//	CONSTRUCTOR
@@ -37,6 +39,16 @@ package common.system.net
 		//	PUBLIC PROPERTIES 
 		//     
 		//--------------------------------------------------------------------------
+		
+		public function get loadPolicyFile():Boolean
+		{
+			return _loadPolicyFile;
+		}
+		
+		public function set loadPolicyFile(value:Boolean):void
+		{
+			_loadPolicyFile = value;
+		}
 		
 		public function get host():String
 		{
@@ -56,9 +68,13 @@ package common.system.net
 		
 		override public function connect(host:String, port:int):void
 		{
-			super.connect(host, port);
 			_host = host;
 			_port = port;
+			if (_loadPolicyFile)
+			{
+				Security.loadPolicyFile("xmlsocket://" + host + ":" + port);
+			}
+			super.connect(host, port);
 		}
 		
 		public function reconnect():void
