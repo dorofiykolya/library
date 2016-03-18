@@ -79,6 +79,14 @@ package mvc.mediators
 			return this;
 		}
 		
+		public function targetProvider(provider:IMediatorProvider):IMediatorMap
+		{
+			disposeTarget();
+			_expected = null;
+			_mediatorProvider = provider;
+			return this;
+		}
+		
 		public function apply(injector:IInjector, type:Class):Object
 		{
 			if (_provider == null)
