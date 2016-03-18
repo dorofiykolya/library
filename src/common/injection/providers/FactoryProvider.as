@@ -45,6 +45,17 @@ package common.injection.providers
             }
             return result;
         }
+		
+		public function newInstance(injector:IInjector, type:Class):Object
+		{
+			return createInstance(injector, ClassType.getInstanceType(type));
+		}
+		
+		public function postInstance(injector:IInjector, value:Object):void
+		{
+			injector.inject(value);
+            _factory.apply(injector, value);
+		}
         
         private function create(injector:IInjector, type:Class):Object
         {

@@ -29,7 +29,8 @@ package common.injection.providers
                 if (_instance == null)
                 {
                     var factory:FactoryProvider = new FactoryProvider(clazz, clazz);
-                    _instance = factory.apply(injector, clazz);
+                    _instance = factory.newInstance(injector, clazz);
+					factory.postInstance(injector, _instance);
                     factory.dispose();
                 }
             }
