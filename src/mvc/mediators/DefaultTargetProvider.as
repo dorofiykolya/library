@@ -10,7 +10,7 @@ package mvc.mediators
 	public class DefaultTargetProvider implements IMediatorProvider
 	{
 		[Inject]
-		protected var _injector:IInjector;
+		public var injector:IInjector;
 		protected var _expectedResult:Object;
 		
 		public function DefaultTargetProvider()
@@ -22,10 +22,10 @@ package mvc.mediators
 		
 		public function provide(mediator:Object, expected:Class):void
 		{
-			_injector.map(expected).asSingleton();
-			_expectedResult = _injector.getObject(expected);
-			_injector.inject(mediator);
-			_injector.unmap(expected);
+			injector.map(expected).asSingleton();
+			_expectedResult = injector.getObject(expected);
+			injector.inject(mediator);
+			injector.unmap(expected);
 		}
 		
 		public function unProvide():void
@@ -44,7 +44,7 @@ package mvc.mediators
 		public function dispose():void
 		{
 			unProvide();
-			_injector = null;
+			injector = null;
 			_expectedResult = null;
 		}
 	
