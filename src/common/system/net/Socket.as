@@ -4,6 +4,8 @@ package common.system.net
 	import common.system.IDisposable;
 	import common.system.ITypeObject;
 	import common.system.Type;
+	import flash.events.Event;
+	import flash.events.ProgressEvent;
 	import flash.net.Socket;
 	import flash.system.Security;
 	
@@ -22,6 +24,8 @@ package common.system.net
 		private var _host:String;
 		private var _port:int;
 		private var _loadPolicyFile:Boolean;
+		private var _processPolicy:Boolean;
+		private var _policyReceived:Boolean;
 		
 		//----------------------------------
 		//	CONSTRUCTOR
@@ -60,6 +64,21 @@ package common.system.net
 			return _port;
 		}
 		
+		public function get processPolicy():Boolean
+		{
+			return _processPolicy;
+		}
+		
+		public function set processPolicy(value:Boolean):void
+		{
+			_processPolicy = value;
+		}
+		
+		public function get policyReceived():Boolean
+		{
+			return _policyReceived;
+		}
+		
 		//--------------------------------------------------------------------------
 		//     
 		//	PUBLIC METHODS 
@@ -70,6 +89,14 @@ package common.system.net
 		{
 			_host = host;
 			_port = port;
+			
+			if (_processPolicy)
+			{
+				_policyReceived = false;
+				removeEventListener(ProgressEvent.SOCKET_DATA, onSocketDataHandler);
+				addEventListener(Event.CONNECT, onConnectHandler, false, int.MAX_VALUE);
+			}
+			
 			if (_loadPolicyFile)
 			{
 				Security.loadPolicyFile("xmlsocket://" + host + ":" + port);
@@ -101,6 +128,54 @@ package common.system.net
 			{
 				close();
 			}
+		}
+		
+		//--------------------------------------------------------------------------
+		//     
+		//	PRIVATE METHODS 
+		//     
+		//--------------------------------------------------------------------------
+		
+		private function onConnectHandler(e:Event):void
+		{
+			if (_processPolicy)
+			{
+				_policyReceived = false;
+				
+				addEventListener(ProgressEvent.SOCKET_DATA, onSocketDataHandler, false, int.MAX_VALUE);
+				removeEventListener(Event.CONNECT, onConnectHandler);
+				
+				writeUTFBytes("<policy-file-request />");
+				writeByte(0);
+				flush();
+				
+				e.stopImmediatePropagation();
+			}
+		}
+		
+		private function onSocketDataHandler(e:ProgressEvent):void
+		{
+			while (bytesAvailable != 0)
+			{
+				var byte:int = readByte();
+				if (byte == 0)
+				{
+					_policyReceived = true;
+					
+					removeEventListener(ProgressEvent.SOCKET_DATA, onSocketDataHandler);
+					addEventListener(Event.CLOSE, onCloseHandler, false, int.MAX_VALUE);
+					close();
+					removeEventListener(Event.CLOSE, onCloseHandler);
+					super.connect(_host, _port);
+					return;
+				}
+			}
+			e.stopImmediatePropagation();
+		}
+		
+		private function onCloseHandler(e:Event):void 
+		{
+			e.stopImmediatePropagation();
 		}
 	}
 }
