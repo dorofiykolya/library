@@ -229,8 +229,8 @@ package common.composite
         internal function getComponents(type:Class = null, includeInactive:Boolean = false, result:Vector.<Component> = null):Vector.<Component>
         {
             var component:Component;
-            var index:int = 0;
             result ||= new Vector.<Component>();
+            var index:int = result.length;
             for each (component in _collection)
             {
                 if ((type == null || component is type) && (includeInactive || component._enabled))
@@ -248,8 +248,8 @@ package common.composite
             var component:Component;
             var innerComponent:Component;
             var entity:Entity;
-            var index:int = 0;
             result ||= new Vector.<Component>();
+            var index:int = result.length;
             for each (component in _collection)
             {
                 if ((type == null || component is type) && (includeInactive || component._enabled))
