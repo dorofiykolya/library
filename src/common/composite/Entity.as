@@ -178,11 +178,8 @@ package common.composite
             var components:Vector.<Component> = getComponents(type);
             for each (var item:Component in components)
             {
-                if (_components.remove(item))
-                {
-                    item.dispose();
-                    result = true;
-                }
+				item.dispose();
+				result = true;
             }
             return result;
         }
