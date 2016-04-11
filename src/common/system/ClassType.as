@@ -327,5 +327,36 @@ package common.system
             }
             return false;
         }
+		
+		/**
+		 * cast type, "true" => true 
+		 * @param	value
+		 * @param	toType
+		 * @return	castedType
+		 */
+		public static function cast(value:Object, toType:Class):Object
+		{
+			if (value is String)
+			{
+				if (toType == Boolean)
+				{
+					if (value == "true") return true;
+					return false;
+				}
+				else if (value == "null") 
+				{
+					return null;
+				}
+				else if (toType == Number)
+				{
+					if (String(value).indexOf(",") != -1)
+					{
+						value = String(value).replace(",", ".");
+					}
+					return parseFloat(String(value));
+				}
+			}
+			return toType(value);
+		}
     }
 }
