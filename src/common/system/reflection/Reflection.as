@@ -934,7 +934,7 @@ package common.system.reflection
 			var parameter:Parameter;
 			if (value)
 			{
-				for each (var current:Object in value.parameter)
+				for each (var current:Object in value.parameters)
 				{
 					parameter = new Parameter();
 					parameter._index = i;
@@ -994,7 +994,7 @@ package common.system.reflection
 			{
 				type = value.type;
 			}
-			if (type == "*")
+			else if (type == "*")
 			{
 				return null;
 			}
@@ -1008,7 +1008,7 @@ package common.system.reflection
 			{
 				type = value.type;
 			}
-			if (type == "*")
+			else if (type == "*")
 			{
 				return null;
 			}
