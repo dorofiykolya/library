@@ -337,6 +337,16 @@ package common.system
 			return _reflection.isXMLList;
 		}
 		
+		public function get fullName():String 
+		{
+			return _reflection.fullName;
+		}
+		
+		public function get vectorElementType():Class 
+		{
+			return _reflection.vectorElementType;
+		}
+		
 		public function get members():Vector.<Member> 
 		{
 			return _reflection.members;

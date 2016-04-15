@@ -17,6 +17,8 @@ package common.system.reflection
 	public class Reflection extends TypeObject
 	{
 		private static const VECTOR_PREFIX:String = "__AS3__.vec::Vector.";
+		private static const LEFT_BR:String = "<";
+		private static const RIGHT_BR:String = ">";
 		
 		private var _value:*;
 		private var _hasInstance:Boolean;
@@ -58,6 +60,8 @@ package common.system.reflection
 		
 		private var _classReflection:Reflection;
 		private var _factoryReflection:Reflection;
+		private var _vectorElementType:Class;
+		private var _fullName:String;
 		
 		public function Reflection(value:*, domain:ApplicationDomain = null)
 		{
@@ -141,7 +145,8 @@ package common.system.reflection
 			{
 				_describeType = AVMPlus.describeType(_value);
 			}
-			_name = _describeType.name;
+			_fullName = _describeType.name;
+			_name = _fullName;
 			_traits = _describeType.traits;
 			if (_name.indexOf("::") != -1)
 			{
@@ -266,6 +271,25 @@ package common.system.reflection
 			return _isProxy;
 		}
 		
+		public final function get vectorElementType():Class
+		{
+			if (_isVector)
+			{
+				if (_vectorElementType == null)
+				{
+					var left:int = _fullName.indexOf(LEFT_BR);
+					var right:int = _fullName.lastIndexOf(RIGHT_BR);
+					if (left >= right)
+					{
+						throw new Error(this.toString());
+					}
+					_vectorElementType = getDefinitionByName(domain, _fullName.substring(left + 1, right)) as Class;
+				}
+				return _vectorElementType;
+			}
+			return null;
+		}
+		
 		public final function get qualifiedClassName():String
 		{
 			return _qualifiedClassName;
@@ -279,6 +303,11 @@ package common.system.reflection
 		public final function get name():String
 		{
 			return _name;
+		}
+		
+		public final function get fullName():String
+		{
+			return _fullName;
 		}
 		
 		public final function get classReflection():Reflection
