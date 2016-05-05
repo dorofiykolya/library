@@ -42,7 +42,7 @@ package common.system.application.controllers
 		{
 			if (("allowsFullScreen" in _stage) && (_stage["allowsFullScreen"]))
 			{
-				_stage.displayState == "fullScreen";
+				_stage.displayState = "fullScreen";
 			}
 		}
 		
@@ -50,7 +50,7 @@ package common.system.application.controllers
 		{
 			if (("fullScreenInteractive" in StageDisplayState) && ("allowsFullScreenInteractive" in _stage) && (_stage["allowsFullScreenInteractive"]))
 			{
-				_stage.displayState == "fullScreenInteractive";
+				_stage.displayState = "fullScreenInteractive";
 				
 			}
 			else
