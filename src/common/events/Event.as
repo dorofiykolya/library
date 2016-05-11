@@ -124,7 +124,7 @@ package common.events
             _data = data;
             _target = _currentTarget = null;
             _stopsPropagation = _stopsImmediatePropagation = false;
-            initializeEvent.apply(null, args);
+            initializeEvent(args);
             return this;
         }
         
@@ -201,7 +201,7 @@ package common.events
             return this;
         }
         
-        protected function initializeEvent(... args):Event
+        protected function initializeEvent(args:Array):Event
         {
             return this;
         }
