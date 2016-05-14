@@ -188,7 +188,7 @@ package common.events
             }
         }
         
-        public function dispatchEventAs(typeClass:Class, type:Object, bubbles:Boolean = false, data:Object = null, ... args):void
+        public function dispatchEventAs(typeClass:Class, type:Object, bubbles:Boolean = false, data:Object = null, args:Array = null):void
         {
             if (bubbles || hasEventListener(type))
             {
