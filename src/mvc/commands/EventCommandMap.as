@@ -1,6 +1,7 @@
 package mvc.commands
 {
     import common.context.IContext;
+    import common.events.Event;
     import common.events.IEventDispatcher;
     import common.system.IDisposable;
     import common.system.TypeObject;
@@ -25,7 +26,22 @@ package mvc.commands
         
         public function map(key:Object, eventType:Class = null):ICommandMapper
         {
-            return _map[key] || (_map[key] = new CommandMapper(this, _context, key, eventType, _eventDispatcher));
+            eventType = eventType || Event;
+            var commandMap:Dictionary = _map[key];
+            
+            if (commandMap == null)
+            {
+                commandMap = new Dictionary();
+                _map[key] = commandMap;
+            }
+            
+            var command:CommandMapper = commandMap[eventType];
+            if (command == null)
+            {
+                commandMap[eventType] = command = new CommandMapper(this, _context, key, eventType, _eventDispatcher);
+            }
+            
+            return command;
         }
         
         public function unmap(key:Object, eventType:Class = null):ICommanMapperRemove
@@ -40,7 +56,7 @@ package mvc.commands
             if (_map)
             {
                 var disposable:IDisposable;
-                for each (var item:CommandMapper in _map) 
+                for each (var item:CommandMapper in _map)
                 {
                     disposable = item as IDisposable;
                     if (disposable)
@@ -53,10 +69,10 @@ package mvc.commands
             _context = null;
             _eventDispatcher = null;
         }
-		
-		protected function get mapper():Dictionary
-		{
-			return _map;
-		}
+        
+        protected function get mapper():Dictionary
+        {
+            return _map;
+        }
     }
 }
