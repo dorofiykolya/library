@@ -46,7 +46,7 @@ package common.system.application
 				}
 			}
 			
-			_active = Environment.isIOS || Environment.isIphone || Environment.isIpad;
+			_active = Environment.isIOS || Environment.isIphone || Environment.isIpad || Environment.isAndroid;
 			_startTime = new Date().time;
 			_instance = this;
 			
