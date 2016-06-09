@@ -180,6 +180,11 @@ package common.context
             else
                 _injector.parent = null;
         }
+		
+		public function get initialized():Boolean 
+		{
+			return _initialized;
+		}
         
         //----------------------------------
         //	initialize
