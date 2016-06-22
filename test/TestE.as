@@ -1,4 +1,4 @@
-package test 
+package
 {
 	import common.composite.Entity;
 	import common.system.utils.IPoolable;

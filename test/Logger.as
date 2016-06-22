@@ -1,4 +1,4 @@
-package test 
+package
 {
 	import common.system.application.Application;
 	import flash.display.Sprite;

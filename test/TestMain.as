@@ -1,13 +1,8 @@
 package  
 {
-	import common.composite.Component;
-	import common.composite.Entity;
 	import common.injection.Injector;
 	import flash.display.Sprite;
 	import mvc.MVCContext;
-	import test.ITestInject;
-	import test.TestInjection;
-	import test.TestInto;
 	
 	/**
 	 * ...

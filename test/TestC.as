@@ -1,4 +1,4 @@
-package test 
+package
 {
 	import common.composite.Component;
 	
