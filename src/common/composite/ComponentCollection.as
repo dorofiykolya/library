@@ -257,14 +257,8 @@ package common.composite
                     entity = component as Entity;
                     if (entity)
                     {
-                        for each (innerComponent in entity.getComponentsInChildren(type, recursive, includeInactive))
-                        {
-                            if ((type == null || component is type) && (includeInactive || component._enabled))
-                            {
-                                result[index] = component;
-                                index++;
-                            }
-                        }
+						entity.getComponentsInChildren(type, recursive, includeInactive, result);
+                        index = result.length;
                     }
                     result[index] = component;
                     index++;
