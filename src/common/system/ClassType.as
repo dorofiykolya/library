@@ -308,6 +308,15 @@ package common.system
         /**
          * 
          * @param value
+         */
+        public static function isArray(value:Object):Boolean 
+        {
+            return value is Array;
+        }
+        
+        /**
+         * 
+         * @param value
          * @return
          */
         public static function isPrimitive(value:Object):Boolean
