@@ -1,27 +1,38 @@
-package common.system 
+package common.system
 {
+	import common.system.collection.Enumerator;
+	import common.system.collection.IEnumerable;
+	import common.system.collection.IEnumerator;
 	import flash.utils.Dictionary;
+	
 	/**
 	 * ...
-	 * @author ...
+	 * @author dorofiy.com
 	 */
-	public class DictionaryMap extends TypeObject
+	public class DictionaryMap extends TypeObject implements IEnumerable
 	{
 		private var _target:*;
 		private var _dictionary:Dictionary;
 		private var _parent:DictionaryMap;
 		private var _key:Object;
 		
-		public function DictionaryMap() 
+		public function DictionaryMap()
 		{
-			
+		
 		}
 		
-		public function clear(key:Object):void
+		public function clear(key:Object = null):void
 		{
 			if (_dictionary)
 			{
-				delete _dictionary[key];
+				if (key != null)
+				{
+					delete _dictionary[key];
+				}
+				else
+				{
+					_dictionary = new Dictionary();
+				}
 			}
 		}
 		
@@ -33,6 +44,15 @@ package common.system
 				current = current.getDictionary(key);
 			}
 			return current;
+		}
+		
+		/**
+		 * common.system.collection.KeyValuePair
+		 * @return
+		 */
+		public function getEnumerator():IEnumerator
+		{
+			return new DictionaryMapEnumerator(_dictionary);
 		}
 		
 		public function get parent():DictionaryMap
@@ -69,5 +89,55 @@ package common.system
 			return result;
 		}
 	}
+}
 
+import common.system.collection.IEnumerator;
+import common.system.collection.KeyValuePair;
+import flash.utils.Dictionary;
+
+class DictionaryMapEnumerator implements IEnumerator
+{
+	private var _collection:Vector.<KeyValuePair>;
+	private var _position:int;
+	private var _elements:int;
+	
+	public function DictionaryMapEnumerator(dictionary:Dictionary)
+	{
+		_collection = new Vector.<KeyValuePair>();
+		for (var prop:Object in dictionary)
+		{
+			_collection[_collection.length] = new KeyValuePair(prop, dictionary[prop]);
+		}
+		_elements = _collection.length;
+		_collection.fixed = true;
+		_position = -1;
+	}
+	
+	public function get current():Object
+	{
+		if (_position == -1)
+		{
+			return null;
+		}
+		return _collection[_position];
+	}
+	
+	public function moveNext():Boolean
+	{
+		if (_elements == 0)
+		{
+			return false;
+		}
+		if (_position >= _elements - 1)
+		{
+			return false;
+		}
+		_position++;
+		return true;
+	}
+	
+	public function reset():void
+	{
+		_position = -1;
+	}
 }
