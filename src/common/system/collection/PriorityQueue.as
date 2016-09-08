@@ -8,10 +8,16 @@ package common.system.collection
 	public class PriorityQueue
 	{
 		private var _data:Vector.<*>;
+		private var _compare:Function;
 		
-		public function PriorityQueue()
+		/**
+		 * 
+		 * @param function compareTo(left:*, right:*):int;
+		 */
+		public function PriorityQueue(compare:Function = null)
 		{
 			_data = new Vector.<*>();
+			_compare = compare;
 		}
 		
 		public function enqueue(item:*):void
@@ -76,6 +82,10 @@ package common.system.collection
 		
 		private function compareTo(left:*, right:*):int
 		{
+			if (_compare != null)
+			{
+				return _compare(left, right);
+			}
 			if (left > right) return 1;
 			if (left < right) return -1;
 			return 0;
