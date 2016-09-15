@@ -98,7 +98,7 @@ package common.system
          */
         public static function equalsClassOrSubclassOf(type:Class, parentType:Class, message:String = ""):void
         {
-            if (!(type == parentType && ClassType.getInstanceType(type).isExtendedClass(parentType)))
+            if (!(type == parentType || ClassType.getInstanceType(type).isExtendedClass(parentType)))
             {
                 if (message == null || message.length == 0)
                 {
