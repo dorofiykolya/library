@@ -9,7 +9,6 @@ package common.composite
      */
     public class Entity extends Component
     {
-        private static var _broadcastListeners:Vector.<Component>;
         
         //--------------------------------------------------------------------------
         //     
@@ -32,6 +31,8 @@ package common.composite
         //----------------------------------
         //	STATIC
         //----------------------------------
+        
+        private static var _broadcastListeners:Vector.<Component>;
         
         //--------------------------------------------------------------------------
         //     
