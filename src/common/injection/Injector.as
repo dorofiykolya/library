@@ -146,7 +146,7 @@ package common.injection
                 var item:IDisposable;
                 for (var name:Object in value)
                 {
-                    item = value[name];
+                    item = value[name] as IDisposable;
                     delete value[name];
                     if (item)
                     {
