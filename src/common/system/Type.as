@@ -41,7 +41,7 @@ package common.system
 		
 		public function Type()
 		{
-			
+		
 		}
 		
 		//--------------------------------------------------------------------------
@@ -58,7 +58,7 @@ package common.system
 			}
 			var isFactory:Boolean = !(value is Class);
 			var type:Class;
-			if (isFactory) 
+			if (isFactory)
 			{
 				type = ClassType.getClass(value);
 			}
@@ -82,6 +82,26 @@ package common.system
 		//	PUBLIC SECTION 
 		//     
 		//--------------------------------------------------------------------------
+		
+		public function get extendType():Type
+		{
+			return Type.getType(_reflection.extendClass, _reflection.domain);
+		}
+		
+		public function getExtendType():Type
+		{
+			return extendType;
+		}
+		
+		public function get parentType():Type
+		{
+			return extendType;
+		}
+		
+		public function getParentType():Type
+		{
+			return parentType;
+		}
 		
 		public function get instanceType():Type
 		{
@@ -120,134 +140,134 @@ package common.system
 			return instanceType;
 		}
 		
-		public function newInstance(...args):Object 
+		public function newInstance(... args):Object
 		{
 			return _reflection.newInstance.apply(null, args);
 		}
 		
 		/* DELEGATE common.system.reflection.Reflection */
 		
-		public function get constants():Vector.<Constant> 
+		public function get constants():Vector.<Constant>
 		{
 			return _reflection.constants;
 		}
 		
-		public function get constructorClass():Class 
+		public function get constructorClass():Class
 		{
 			return _reflection.constructorClass;
 		}
 		
-		public function get constructorInfo():Constructor 
+		public function get constructorInfo():Constructor
 		{
 			return _reflection.constructorInfo;
 		}
 		
-		public function get describeType():Object 
+		public function get describeType():Object
 		{
 			return _reflection.describeType;
 		}
 		
-		public function get domain():ApplicationDomain 
+		public function get domain():ApplicationDomain
 		{
 			return _reflection.domain;
 		}
 		
-		public function get extendsClasses():Vector.<Class> 
+		public function get extendsClasses():Vector.<Class>
 		{
 			return _reflection.extendsClasses;
 		}
 		
-		public function get fields():Vector.<Field> 
+		public function get fields():Vector.<Field>
 		{
 			return _reflection.fields;
 		}
 		
-		public function getConstants():Vector.<Constant> 
+		public function getConstants():Vector.<Constant>
 		{
 			return _reflection.getConstants();
 		}
 		
-		public function getField(name:String):Field 
+		public function getField(name:String):Field
 		{
 			return _reflection.getField(name);
 		}
 		
-		public function getFields():Vector.<Field> 
+		public function getFields():Vector.<Field>
 		{
 			return _reflection.getFields();
 		}
 		
-		public function getMember(name:String):Member 
+		public function getMember(name:String):Member
 		{
 			return _reflection.getMember(name);
 		}
 		
-		public function getMembers(memberType:MemberType = null):Vector.<Member> 
+		public function getMembers(memberType:MemberType = null):Vector.<Member>
 		{
 			return _reflection.getMembers(memberType);
 		}
 		
-		public function getMetaData(name:String = null):Vector.<MetaData> 
+		public function getMetaData(name:String = null):Vector.<MetaData>
 		{
 			return _reflection.getMetaData(name);
 		}
 		
-		public function getMethod(name:String):Method 
+		public function getMethod(name:String):Method
 		{
 			return _reflection.getMethod(name);
 		}
 		
-		public function getMethods():Vector.<Method> 
+		public function getMethods():Vector.<Method>
 		{
 			return _reflection.getMethods();
 		}
 		
-		public function getParameters():Vector.<Parameter> 
+		public function getParameters():Vector.<Parameter>
 		{
 			return _reflection.getParameters();
 		}
 		
-		public function getProperties(access:Access = null):Vector.<Property> 
+		public function getProperties(access:Access = null):Vector.<Property>
 		{
 			return _reflection.getProperties(access);
 		}
 		
-		public function getProperty(name:String):Property 
+		public function getProperty(name:String):Property
 		{
 			return _reflection.getProperty(name);
 		}
 		
-		public function get interfaces():Vector.<Class> 
+		public function get interfaces():Vector.<Class>
 		{
 			return _reflection.interfaces;
 		}
 		
-		public function get isArray():Boolean 
+		public function get isArray():Boolean
 		{
 			return _reflection.isArray;
 		}
-        
-        public function get isInterface():Boolean
-        {
-            return _reflection.isInterface;
-        }
 		
-		public function get isClass():Boolean 
+		public function get isInterface():Boolean
+		{
+			return _reflection.isInterface;
+		}
+		
+		public function get isClass():Boolean
 		{
 			return _reflection.isClass;
 		}
 		
-		public function get isDate():Boolean 
+		public function get isDate():Boolean
 		{
 			return _reflection.isDate;
 		}
 		
-		public function get isDictionary():Boolean 
+		public function get isDictionary():Boolean
 		{
 			return _reflection.isDictionary;
 		}
 		
-		public function get isDynamic():Boolean 
+		public function get isDynamic():Boolean
 		{
 			return _reflection.isDynamic;
 		}
@@ -257,137 +277,137 @@ package common.system
 			return _reflection.isProxy;
 		}
 		
-		public function get isEnumeration():Boolean 
+		public function get isEnumeration():Boolean
 		{
 			return _reflection.isEnumeration;
 		}
 		
-		public function isExtended(type:Class):Boolean 
+		public function isExtended(type:Class):Boolean
 		{
 			return _reflection.isExtended(type);
 		}
 		
-		public function isExtendedClass(type:Class):Boolean 
+		public function isExtendedClass(type:Class):Boolean
 		{
 			return _reflection.isExtendedClass(type);
 		}
 		
-		public function get isFactory():Boolean 
+		public function get isFactory():Boolean
 		{
 			return _reflection.isFactory;
 		}
 		
-		public function get isFinal():Boolean 
+		public function get isFinal():Boolean
 		{
 			return _reflection.isFinal;
 		}
 		
-		public function get isFunction():Boolean 
+		public function get isFunction():Boolean
 		{
 			return _reflection.isFunction;
 		}
 		
-		public function isImplementedInterface(type:Class):Boolean 
+		public function isImplementedInterface(type:Class):Boolean
 		{
 			return _reflection.isImplementedInterface(type);
 		}
 		
-		public function get isNull():Boolean 
+		public function get isNull():Boolean
 		{
 			return _reflection.isNull;
 		}
 		
-		public function get isPrimitive():Boolean 
+		public function get isPrimitive():Boolean
 		{
 			return _reflection.isPrimitive;
 		}
 		
-		public function get isStatic():Boolean 
+		public function get isStatic():Boolean
 		{
 			return _reflection.isStatic;
 		}
 		
-		public function isSubclassOf(type:Class):Boolean 
+		public function isSubclassOf(type:Class):Boolean
 		{
 			return _reflection.isSubclassOf(type);
 		}
-        
-        public function isInstanceOf(type:Class):Boolean 
-        {
-            return _reflection.isInstanceOf(type);
-        }
 		
-		public function get isUndefined():Boolean 
+		public function isInstanceOf(type:Class):Boolean
+		{
+			return _reflection.isInstanceOf(type);
+		}
+		
+		public function get isUndefined():Boolean
 		{
 			return _reflection.isUndefined;
 		}
 		
-		public function get isVector():Boolean 
+		public function get isVector():Boolean
 		{
 			return _reflection.isVector;
 		}
 		
-		public function get isXML():Boolean 
+		public function get isXML():Boolean
 		{
 			return _reflection.isXML;
 		}
 		
-		public function get isXMLList():Boolean 
+		public function get isXMLList():Boolean
 		{
 			return _reflection.isXMLList;
 		}
 		
-		public function get fullName():String 
+		public function get fullName():String
 		{
 			return _reflection.fullName;
 		}
 		
-		public function get vectorElementType():Class 
+		public function get vectorElementType():Class
 		{
 			return _reflection.vectorElementType;
 		}
 		
-		public function get members():Vector.<Member> 
+		public function get members():Vector.<Member>
 		{
 			return _reflection.members;
 		}
 		
-		public function get metaData():Vector.<MetaData> 
+		public function get metaData():Vector.<MetaData>
 		{
 			return _reflection.metaData;
 		}
 		
-		public function get methods():Vector.<Method> 
+		public function get methods():Vector.<Method>
 		{
 			return _reflection.methods;
 		}
 		
-		public function get name():String 
+		public function get name():String
 		{
 			return _reflection.name;
 		}
 		
-		public function get packageName():String 
+		public function get packageName():String
 		{
 			return _reflection.packageName;
 		}
 		
-		public function get parameters():Vector.<Parameter> 
+		public function get parameters():Vector.<Parameter>
 		{
 			return _reflection.parameters;
 		}
 		
-		public function get properties():Vector.<Property> 
+		public function get properties():Vector.<Property>
 		{
 			return _reflection.properties;
 		}
 		
-		public function get qualifiedClassName():String 
+		public function get qualifiedClassName():String
 		{
 			return _reflection.qualifiedClassName;
 		}
 		
-		public function get type():Class 
+		public function get type():Class
 		{
 			return _reflection.type;
 		}

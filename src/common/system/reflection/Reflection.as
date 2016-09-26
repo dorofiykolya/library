@@ -577,6 +577,24 @@ package common.system.reflection
 			return _parameters ? _parameters.slice() : null;
 		}
 		
+		public final function get parentClass():Class
+		{
+			if (_hasInstance && _extendsClasses == null)
+			{
+				_extendsClasses = internalExtendsClasses;
+			}
+			if (_extendsClasses != null && _extendsClasses.length != 0)
+			{
+				return _extendsClasses[0];
+			}
+			return null;
+		}
+		
+		public final function get extendClass():Class
+		{
+			return parentClass;
+		}
+		
 		public final function get extendsClasses():Vector.<Class>
 		{
 			if (_hasInstance && _extendsClasses == null)
