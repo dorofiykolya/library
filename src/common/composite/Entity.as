@@ -12,7 +12,7 @@ package common.composite
         
         //--------------------------------------------------------------------------
         //     
-        //	INTERNAL VARIABLES 
+        //    INTERNAL VARIABLES 
         //     
         //--------------------------------------------------------------------------
         
@@ -20,7 +20,7 @@ package common.composite
         internal var _components:ComponentCollection;
         
         //----------------------------------
-        //	CONSTRUCTOR
+        //    CONSTRUCTOR
         //----------------------------------
         
         public function Entity()
@@ -29,14 +29,14 @@ package common.composite
         }
         
         //----------------------------------
-        //	STATIC
+        //    STATIC
         //----------------------------------
         
         private static var _broadcastListeners:Vector.<Component>;
         
         //--------------------------------------------------------------------------
         //     
-        //	INTERNAL METHODS 
+        //    INTERNAL METHODS 
         //     
         //--------------------------------------------------------------------------
         
@@ -90,12 +90,12 @@ package common.composite
         }
         
         //----------------------------------
-        //	INSTANCE SECTION
+        //    INSTANCE SECTION
         //----------------------------------
         
         //--------------------------------------------------------------------------
         //     
-        //	PUBLIC METHODS 
+        //    PUBLIC METHODS 
         //     
         //--------------------------------------------------------------------------
         
@@ -179,8 +179,8 @@ package common.composite
             var components:Vector.<Component> = getComponents(type);
             for each (var item:Component in components)
             {
-				item.dispose();
-				result = true;
+                item.dispose();
+                result = true;
             }
             return result;
         }
@@ -223,20 +223,6 @@ package common.composite
             return _components.getComponentsInChildren(type, recursive, includeInactive, result);
         }
         
-        public override function dispose():void
-        {
-            if (!disposed)
-            {
-                parent = null;
-                if (_behaviourController)
-                {
-                    _behaviourController.dispose();
-                }
-                _components.dispose();
-                super.dispose();
-            }
-        }
-        
         public override function broadcastEvent(event:Event):void
         {
             if (event.bubbles)
@@ -259,7 +245,7 @@ package common.composite
             Event.toPool(event);
         }
         
-        override public function broadcastEventAs(typeEvent:Class, type:String, data:Object = null, ...args):void 
+        override public function broadcastEventAs(typeEvent:Class, type:String, data:Object = null, ... args):void
         {
             var event:Event = Event.fromPoolAs(typeEvent, type, false, data, args);
             broadcastEvent(event);
@@ -268,9 +254,18 @@ package common.composite
         
         //--------------------------------------------------------------------------
         //     
-        //	INTERNAL METHODS 
+        //    INTERNAL METHODS 
         //     
         //--------------------------------------------------------------------------
+        
+        internal override function disposeInternal():void
+        {
+            if (_behaviourController)
+            {
+                _behaviourController.dispose();
+            }
+            _components.dispose();
+        }
         
         internal function getChildEventListeners(object:Component, eventType:Object, listeners:Vector.<Component>):void
         {
@@ -299,17 +294,6 @@ package common.composite
                 _components.getComponentsByContext(context);
             }
         }
-        
-        internal override function attachToParent():void
-        {
-            super.attachToParent();
-            attach();
-        }
-        
-        internal override function detachFromParent():void
-        {
-            super.detachFromParent();
-            detach();
-        }
+    
     }
 }

@@ -17,7 +17,7 @@ package common.composite
     {
         //--------------------------------------------------------------------------
         //     
-        //	PRIVATE VARIABLES 
+        //    PRIVATE VARIABLES 
         //     
         //--------------------------------------------------------------------------
         
@@ -32,7 +32,7 @@ package common.composite
         
         //--------------------------------------------------------------------------
         //     
-        //	INTERNAL VARIABLES 
+        //    INTERNAL VARIABLES 
         //     
         //--------------------------------------------------------------------------
         
@@ -45,7 +45,7 @@ package common.composite
         internal var _parent:Entity;
         
         //----------------------------------
-        //	CONSTRUCTOR
+        //    CONSTRUCTOR
         //----------------------------------
         
         public function Component()
@@ -90,7 +90,7 @@ package common.composite
         
         //--------------------------------------------------------------------------
         //     
-        //	PUBLIC SECTION 
+        //    PUBLIC SECTION 
         //     
         //--------------------------------------------------------------------------
         
@@ -214,7 +214,18 @@ package common.composite
         
         public function set enabled(value:Boolean):void
         {
-            _enabled = value;
+            if (_enabled != value)
+            {
+                _enabled = value;
+                if (_enabled)
+                {
+                    onEnable();
+                }
+                else
+                {
+                    onDisable();
+                }
+            }
         }
         
         public function get active():Boolean
@@ -245,10 +256,12 @@ package common.composite
             return _disposed;
         }
         
-        public override function dispose():void
+        public final override function dispose():void
         {
             if (!_disposed)
             {
+                onDispose();
+                disposeInternal();
                 if (_entity)
                 {
                     _entity.removeComponent(this);
@@ -260,9 +273,14 @@ package common.composite
         
         //--------------------------------------------------------------------------
         //     
-        //	INTERNAL SECTION 
+        //    INTERNAL SECTION 
         //     
         //--------------------------------------------------------------------------
+        
+        internal function disposeInternal():void
+        {
+        
+        }
         
         internal function getComponentsByContext(context:ComponentContext):void
         {
@@ -292,18 +310,18 @@ package common.composite
         internal function attachToParent():void
         {
             dispatchEventWith(Event.ADDED, true);
-            attach();
+            onAttach();
         }
         
         internal function detachFromParent():void
         {
             dispatchEventWith(Event.REMOVED, true);
-            detach();
+            onDetach();
         }
         
         //--------------------------------------------------------------------------
         //     
-        //	PROTECTED SECTION 
+        //    PROTECTED SECTION 
         //     
         //--------------------------------------------------------------------------
         
@@ -315,12 +333,27 @@ package common.composite
             }
         }
         
-        protected function attach():void
+        protected function onAttach():void
         {
         
         }
         
-        protected function detach():void
+        protected function onDetach():void
+        {
+        
+        }
+        
+        protected function onDispose():void
+        {
+        
+        }
+        
+        protected function onEnable():void
+        {
+        
+        }
+        
+        protected function onDisable():void
         {
         
         }
