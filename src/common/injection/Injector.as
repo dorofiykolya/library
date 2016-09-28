@@ -27,6 +27,7 @@ package common.injection
 			_parent = parent;
             _map = new Dictionary();
             _provider = new Dictionary();
+			initializeInjector();
         }
         
         public function map(type:Class, name:String = null):IMapping
@@ -118,6 +119,7 @@ package common.injection
         {
             disposeEnumerable(_map);
             disposeEnumerable(_provider);
+			initializeInjector();
         }
         
         public function get parent():IInjector 
@@ -138,6 +140,13 @@ package common.injection
             }
             return ClassType.getQualifiedClassName(type);
         }
+		
+		private function initializeInjector():void
+		{
+			map(Injector).toValue(this);
+			map(IInjector).toValue(this);
+			map(IInject).toValue(this); 
+		}
         
         private function disposeEnumerable(value:Object):void
         {

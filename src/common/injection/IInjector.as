@@ -6,9 +6,8 @@ package common.injection {
      * ...
      * @author dorofiy.com
      */
-    public interface IInjector
+    public interface IInjector extends IInject
     {
-        function inject(value:Object):void;
         function map(type:Class, name:String = null):IMapping;
         function unmap(type:Class, name:String = null):void;
         function get parent():IInjector;
