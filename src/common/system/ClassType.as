@@ -330,7 +330,7 @@ package common.system
                     case Boolean: 
                     case int: 
                     case uint: 
-                    case Boolean: 
+                    case Number: 
                         return true;
                 }
             }
