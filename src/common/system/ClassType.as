@@ -298,8 +298,15 @@ package common.system
         public static function isVector(value:Object):Boolean
         {
             var cls:String = flash.utils.getQualifiedClassName(value);
-            if (cls.indexOf(VECTOR) == 0)
+            if (cls.length > VECTOR.length)
             {
+                for (var i:int = 0; i < VECTOR.length; i++) 
+                {
+                    if (cls.charCodeAt(i) != VECTOR.charCodeAt(i))
+                    {
+                        return false;
+                    }
+                }
                 return true;
             }
             return false;
@@ -336,36 +343,36 @@ package common.system
             }
             return false;
         }
-		
-		/**
-		 * cast type, "true" => true 
-		 * @param	value
-		 * @param	toType
-		 * @return	castedType
-		 */
-		public static function cast(value:Object, toType:Class):Object
-		{
-			if (value is String)
-			{
-				if (toType == Boolean)
-				{
-					if (value == "true") return true;
-					return false;
-				}
-				else if (value == "null") 
-				{
-					return null;
-				}
-				else if (toType == Number)
-				{
-					if (String(value).indexOf(",") != -1)
-					{
-						value = String(value).replace(",", ".");
-					}
-					return parseFloat(String(value));
-				}
-			}
-			return toType(value);
-		}
+        
+        /**
+         * cast type, "true" => true 
+         * @param    value
+         * @param    toType
+         * @return   castedType
+         */
+        public static function cast(value:Object, toType:Class):Object
+        {
+            if (value is String)
+            {
+                if (toType == Boolean)
+                {
+                    if (value == "true") return true;
+                    return false;
+                }
+                else if (value == "null") 
+                {
+                    return null;
+                }
+                else if (toType == Number)
+                {
+                    if (String(value).indexOf(",") != -1)
+                    {
+                        value = String(value).replace(",", ".");
+                    }
+                    return parseFloat(String(value));
+                }
+            }
+            return toType(value);
+        }
     }
 }

@@ -131,7 +131,7 @@ package common.system.reflection
 					_isDate = true;
 					break;
 				default: 
-					_isVector = _qualifiedClassName.indexOf(VECTOR_PREFIX) == 0;
+					_isVector = internalIsVector(_qualifiedClassName);
 					_isFunction = _value is Function;
 					_isProxy = !_isVector && !_isFunction && _value is Proxy;
 					break;
@@ -185,11 +185,11 @@ package common.system.reflection
 		{
 			return _isDynamic || _isArray || _isVector || _isDictionary;
 		}
-        
-        public final function get isInterface():Boolean
-        {
-            return _hasInstance? factoryReflection.internalExtendsClasses.length == 0 && _class != Object : false;
-        }
+		
+		public final function get isInterface():Boolean
+		{
+			return _hasInstance ? factoryReflection.internalExtendsClasses.length == 0 && _class != Object : false;
+		}
 		
 		public final function get isFactory():Boolean
 		{
@@ -475,7 +475,7 @@ package common.system.reflection
 				return properties;
 			}
 			var result:Vector.<Property> = new Vector.<Property>();
-			for each (var property:Property in internalProperties) 
+			for each (var property:Property in internalProperties)
 			{
 				if (property._access == access)
 				{
@@ -617,10 +617,10 @@ package common.system.reflection
 		{
 			if (_hasInstance && type)
 			{
-                if (_extendsClasses)
-                {
-                    return _extendsClasses.indexOf(type) != -1;
-                }
+				if (_extendsClasses)
+				{
+					return _extendsClasses.indexOf(type) != -1;
+				}
 				return internalExtendsClasses.indexOf(type) != -1;
 			}
 			return false;
@@ -630,10 +630,10 @@ package common.system.reflection
 		{
 			if (_hasInstance && type)
 			{
-                if (_interfaces)
-                {
-                    return _interfaces.indexOf(type) != -1;
-                }
+				if (_interfaces)
+				{
+					return _interfaces.indexOf(type) != -1;
+				}
 				return internalInterfaces.indexOf(type) != -1;
 			}
 			return false;
@@ -652,15 +652,15 @@ package common.system.reflection
 			}
 			return false;
 		}
-        
-        public final function isInstanceOf(type:Class):Boolean
-        {
-            if (_hasInstance && type)
-            {
-                return _class == type || isSubclassOf(type);
-            }
-            return false;
-        }
+		
+		public final function isInstanceOf(type:Class):Boolean
+		{
+			if (_hasInstance && type)
+			{
+				return _class == type || isSubclassOf(type);
+			}
+			return false;
+		}
 		
 		public final function newInstance(... args):Object
 		{
@@ -754,8 +754,8 @@ package common.system.reflection
 		{
 			return _class;
 		}
-        
-        private final function get internalMethods():Vector.<Method>
+		
+		private final function get internalMethods():Vector.<Method>
 		{
 			if (_hasInstance && _methods == null)
 			{
@@ -776,10 +776,10 @@ package common.system.reflection
 			}
 			return _methods ? _methods : null;
 		}
-        
-        private final function get internalProperties():Vector.<Property>
-        {
-            if (_hasInstance && _properties == null)
+		
+		private final function get internalProperties():Vector.<Property>
+		{
+			if (_hasInstance && _properties == null)
 			{
 				_properties = new Vector.<Property>();
 				var property:Property;
@@ -796,9 +796,9 @@ package common.system.reflection
 				}
 			}
 			return _properties ? _properties : null;
-        }
-        
-        private final function get internalMembers():Vector.<Member>
+		}
+		
+		private final function get internalMembers():Vector.<Member>
 		{
 			if (_hasInstance && _members == null)
 			{
@@ -827,8 +827,8 @@ package common.system.reflection
 			}
 			return _members ? _members : null;
 		}
-        
-        private final function get internalFields():Vector.<Field>
+		
+		private final function get internalFields():Vector.<Field>
 		{
 			if (_hasInstance && _fields == null)
 			{
@@ -859,8 +859,8 @@ package common.system.reflection
 			}
 			return _fields ? _fields : null;
 		}
-        
-        private final function get internalConstants():Vector.<Constant>
+		
+		private final function get internalConstants():Vector.<Constant>
 		{
 			if (_hasInstance && _constants == null)
 			{
@@ -891,17 +891,17 @@ package common.system.reflection
 			}
 			return _constants ? _constants : null;
 		}
-        
-        private final function get internalMetadata():Vector.<MetaData>
-        {
-            if (_hasInstance && _metadata == null)
+		
+		private final function get internalMetadata():Vector.<MetaData>
+		{
+			if (_hasInstance && _metadata == null)
 			{
 				_metadata = internalGetMetaData(_traits);
 			}
 			return _metadata ? _metadata : null;
-        }
-        
-        private final function get internalExtendsClasses():Vector.<Class>
+		}
+		
+		private final function get internalExtendsClasses():Vector.<Class>
 		{
 			if (_hasInstance && _extendsClasses == null)
 			{
@@ -1037,7 +1037,7 @@ package common.system.reflection
 		private function internalGetType(value:Object):Class
 		{
 			var type:String = value as String;
-			if(type == null)
+			if (type == null)
 			{
 				type = value.type;
 			}
@@ -1051,7 +1051,7 @@ package common.system.reflection
 		private function internalGetTypeName(value:Object):String
 		{
 			var type:String = value as String;
-			if(type == null)
+			if (type == null)
 			{
 				type = value.type;
 			}
@@ -1070,6 +1070,23 @@ package common.system.reflection
 				return new Namespace(uri, uri);
 			}
 			return null;
+		}
+		
+		private function internalIsVector(qualifiedClassName:String)
+		{
+			var cls:String = qualifiedClassName;
+			if (cls.length > VECTOR_PREFIX.length)
+			{
+				for (var i:int = 0; i < VECTOR_PREFIX.length; i++)
+				{
+					if (cls.charCodeAt(i) != VECTOR_PREFIX.charCodeAt(i))
+					{
+						return false;
+					}
+				}
+				return true;
+			}
+			return false;
 		}
 	}
 }
