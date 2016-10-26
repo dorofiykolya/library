@@ -1072,7 +1072,7 @@ package common.system.reflection
 			return null;
 		}
 		
-		private function internalIsVector(qualifiedClassName:String)
+		private function internalIsVector(qualifiedClassName:String):Boolean
 		{
 			var cls:String = qualifiedClassName;
 			if (cls.length > VECTOR_PREFIX.length)
