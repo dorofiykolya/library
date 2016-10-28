@@ -20,6 +20,21 @@ package common.system
 			_value = value;
 		}
 		
+		/**
+		 * parameters array of Enum or value
+		 */
+		public function any(...enums:Array/** array of (Enum or value) */):Boolean
+		{
+			for each (var enum:Object in enums) 
+			{
+				if (equals(enum))
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+		
 		public function get value():Object
 		{
 			return _value;
@@ -105,6 +120,10 @@ package common.system
 		
 		public function equals(value:Object):Boolean
 		{
+			if (value is Enum)
+			{
+				return Enum(value)._value === _value;
+			}
 			return _value === value;
 		}
 		
