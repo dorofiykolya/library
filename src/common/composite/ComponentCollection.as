@@ -254,15 +254,15 @@ package common.composite
             {
                 if ((type == null || component is type) && (includeInactive || component._enabled))
                 {
-                    entity = component as Entity;
-                    if (entity)
-                    {
-						entity.getComponentsInChildren(type, recursive, includeInactive, result);
-                        index = result.length;
-                    }
                     result[index] = component;
                     index++;
                 }
+				entity = component as Entity;
+				if (entity)
+				{
+					entity.getComponentsInChildren(type, recursive, includeInactive, result);
+					index = result.length;
+				}
             }
             result.length = index;
             return result;
